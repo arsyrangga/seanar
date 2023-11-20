@@ -1,0 +1,22 @@
+package com.rangga.seanar.ui.component
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.rangga.seanar.ui.theme.primary
+
+@Composable
+fun ButtonComponent(onClick: ()-> Unit, text: String, modifier: Modifier) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors( containerColor = primary) ,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(text = text, modifier = Modifier.padding(vertical = 8.dp))
+    }
+}

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#0B0A0A</color>
     <color name="primary">#219ebc</color>
+    <color name="secondary">#F1AF09</color>
+    <color name="seablue_light">#66E2FF</color>
+    <color name="seablue_normal">#42C6E5</color>
+    <color name="seablue_bold">#219ebc</color>
+    <color name="yellow_light">#FFD160</color>
+    <color name="yellow_normal">#F8C036</color>
+    <color name="yellow_bold">#F1AF09</color>
+    <color name="gray_200">#F9F9F9</color>
+    <color name="gray_300">#C4C4C4</color>
+    <color name="gray_400">#9B9B9B</color>
+    <color name="gray_500">#777676</color>
+    <color name="gray_600">#535252</color>
+    <color name="gray_700">#2F2E2E</color>
+    <color name="success_light">#D4F5E9</color>
+    <color name="success_normal">#3DD598</color>
+    <color name="success_bold">#00BC71</color>
+    <color name="warning_light">#FEF3D9</color>
+    <color name="warning_normal">#FFC542</color>
+    <color name="warning_bold">#FFB100</color>
+    <color name="danger_light">#FFE5E7</color>
+    <color name="danger_normal">#FF575F</color>
+    <color name="danger_bold">#FF1C26</color>
 </resources>
