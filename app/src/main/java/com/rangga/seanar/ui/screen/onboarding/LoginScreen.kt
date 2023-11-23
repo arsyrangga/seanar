@@ -171,7 +171,7 @@ fun LoginScreen(navController: NavController) {
             )
         }
 
-        ButtonComponent(onClick = { /*TODO*/ }, text = "Masuk", modifier = Modifier.padding(top = 16.dp))
+        ButtonComponent(onClick = { navController.navigate("home_lender_screen") }, text = "Masuk", modifier = Modifier.padding(top = 16.dp))
 
 
     }

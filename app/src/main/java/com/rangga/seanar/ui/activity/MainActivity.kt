@@ -9,15 +9,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
-import com.rangga.seanar.ui.screen.onboarding.SplashScreen
 import com.rangga.seanar.ui.navigation.SeanarNavigation
 import com.rangga.seanar.ui.theme.SeanarTheme
 
 class MainActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             SeanarTheme {
@@ -31,6 +29,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 @Composable
 //fun SeanarApp(modifier: Modifier = Modifier) {

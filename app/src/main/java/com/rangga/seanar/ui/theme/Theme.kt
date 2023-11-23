@@ -33,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
     onSecondaryContainer = seablue_normal,
     onSurface = seablue_normal,
     onSurfaceVariant = seablue_normal,
-    background = Color.White)
+    background = lightWhite)
 
 
 @Composable
@@ -56,7 +56,7 @@ fun SeanarTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
