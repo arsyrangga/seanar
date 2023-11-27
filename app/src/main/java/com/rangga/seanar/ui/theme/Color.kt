@@ -2,7 +2,7 @@ package com.rangga.seanar.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val white = Color(0xFFFFFFFF)
-val black = Color(0x0B0A0A)
+val black = Color(0xFF0B0A0A)
 val primary = Color(0xFF219EBC)
 val primaryDark = Color(0xFF105262)
 val secondary = Color(0xFFD3ECF2)

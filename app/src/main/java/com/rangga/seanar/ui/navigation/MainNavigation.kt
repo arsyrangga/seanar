@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.rangga.seanar.ui.screen.lender.DetailDonasiLenderScreen
+import com.rangga.seanar.ui.screen.lender.DetailPendanaanLenderScreen
 import com.rangga.seanar.ui.screen.lender.DonasiLenderScreen
 import com.rangga.seanar.ui.screen.lender.HomeLenderScreen
 import com.rangga.seanar.ui.screen.lender.PendanaanLenderScreen
@@ -17,7 +19,7 @@ import com.rangga.seanar.ui.screen.onboarding.SplashScreen
 fun SeanarNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = homeLenderScreen) {
+    NavHost(navController, startDestination = splashScreen) {
         composable(splashScreen) {
             SplashScreen(navController)
         }
@@ -42,6 +44,12 @@ fun SeanarNavigation() {
         }
         composable(profileLenderScreen) {
             ProfileLenderScreen(navController)
+        }
+        composable(detailPendanaanLenderScreen) {
+            DetailPendanaanLenderScreen(navController)
+        }
+        composable(detailDonasiLenderScreen) {
+            DetailDonasiLenderScreen(navController)
         }
     }
 }

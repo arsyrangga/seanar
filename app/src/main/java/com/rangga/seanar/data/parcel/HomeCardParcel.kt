@@ -8,7 +8,7 @@ data class HomeCardParcel(
     val title: String,
     val description: String,
     val isVerified: Boolean,
-    val minPinjaman: String,
+    val minPinjaman: Int,
     val returns: String,
     val tenor: String,
 ) : Parcelable

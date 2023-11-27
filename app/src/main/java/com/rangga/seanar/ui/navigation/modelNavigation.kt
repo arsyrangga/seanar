@@ -8,3 +8,6 @@ val homeLenderScreen= "home_lender_screen"
 val pendanaanLenderScreen= "pendanaan_lender_screen"
 val donasiLenderScreen = "donasi_lender_screen"
 val profileLenderScreen = "profile_lender_screen"
+val detailPendanaanLenderScreen = "detail_pendanaan_lender_screen"
+val detailDonasiLenderScreen = "detail_donasi_lender_screen"
+

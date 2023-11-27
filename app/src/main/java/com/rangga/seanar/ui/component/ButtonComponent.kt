@@ -11,11 +11,16 @@ import androidx.compose.ui.unit.dp
 import com.rangga.seanar.ui.theme.primary
 
 @Composable
-fun ButtonComponent(onClick: ()-> Unit, text: String, modifier: Modifier) {
+fun ButtonComponent(
+    onClick: () -> Unit,
+    text: String,
+    modifier: Modifier,
+    disabled: Boolean = false
+) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors( containerColor = primary) ,
-        modifier = modifier.fillMaxWidth()
+        colors = ButtonDefaults.buttonColors(containerColor = primary),
+        modifier = modifier.fillMaxWidth(), enabled = !disabled
     ) {
         Text(text = text, modifier = Modifier.padding(vertical = 8.dp))
     }

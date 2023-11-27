@@ -16,6 +16,10 @@ class Utils {
             val filesDir = context.externalCacheDir
             return File.createTempFile(Instant.now().toString(), ".jpg", filesDir)
         }
+
+        fun formatCurrency(data:Int): String{
+            return "Rp${NumberFormat.getNumberInstance(Locale.US).format(data)}.00"
+        }
         fun uriToFile(imageUri: Uri, context: Context): File {
             val myFile = createCustomTempFile(context)
             val inputStream = context.contentResolver.openInputStream(imageUri) as InputStream

@@ -2,11 +2,14 @@ package com.rangga.seanar.ui.component.lender
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,17 +23,20 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.rangga.seanar.R
 import com.rangga.seanar.data.parcel.HomeCardParcel
+import com.rangga.seanar.helper.Utils
 import com.rangga.seanar.ui.theme.gray_200
 import com.rangga.seanar.ui.theme.gray_500
 import com.rangga.seanar.ui.theme.primary
 
 @Composable
-fun CardComponent(data: HomeCardParcel) {
+fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
     Box(
         modifier = Modifier
-            .padding( bottom = 20.dp)
+            .padding(bottom = 20.dp)
             .fillMaxWidth(0.48F)
             .background(gray_200, RoundedCornerShape(4))
+            .clickable{onClick()}
+
     )
     {
         Column {
@@ -72,7 +78,7 @@ fun CardComponent(data: HomeCardParcel) {
                         lineHeight = 18.sp
                     )
                     Text(
-                        text = data.minPinjaman,
+                        text = "${Utils.formatCurrency(data.minPinjaman)}",
                         color = primary,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
@@ -80,44 +86,46 @@ fun CardComponent(data: HomeCardParcel) {
                     )
                 }
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    Text(
-                        text = "Return",
-                        color = gray_500,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp
-                    )
-                    Text(
-                        text = data.returns,
-                        color = primary,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 8.dp, end = 8.dp)
+                    ) {
+                        Text(
+                            text = "Return",
+                            color = gray_500,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp
+                        )
+                        Text(
+                            text = data.returns,
+                            color = primary,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.weight(1F)
+                            .padding(top = 8.dp)
+                    ) {
+                        Text(
+                            text = "Tenor",
+                            color = gray_500,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp
+                        )
+                        Text(
+                            text = data.tenor,
+                            color = primary,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    Text(
-                        text = "Tenor",
-                        color = gray_500,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp
-                    )
-                    Text(
-                        text = data.tenor,
-                        color = primary,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+
+
 
             }
 

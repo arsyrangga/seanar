@@ -94,7 +94,7 @@ fun LoginScreen(navController: NavController) {
 
 //      input email
         Text(
-            text = "Email atau Nomor HP",
+            text = "Email",
             color = gray_600,
             modifier = Modifier
                 .padding(bottom = 4.dp)
@@ -117,7 +117,7 @@ fun LoginScreen(navController: NavController) {
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             placeholder = {
-                Text(text = "Masukan Email atau Nomor HP", color = gray_500)
+                Text(text = "Masukan Email", color = gray_500)
             }
         )
         //      input Password

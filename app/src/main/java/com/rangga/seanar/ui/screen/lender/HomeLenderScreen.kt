@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,10 +26,11 @@ import com.rangga.seanar.ui.component.lender.BoxCardHome
 import com.rangga.seanar.ui.component.lender.CardComponent
 import com.rangga.seanar.ui.component.lender.ContainerCardLender
 import com.rangga.seanar.ui.component.lender.HeaderLender
+import com.rangga.seanar.ui.navigation.detailPendanaanLenderScreen
 import com.rangga.seanar.ui.theme.primaryDark
 
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HomeLenderScreen(navController: NavController) {
 
@@ -37,7 +41,7 @@ fun HomeLenderScreen(navController: NavController) {
                 title = "Modal Usaha Nelayan",
                 description = "Kelompok Nelayan Mulyo",
                 isVerified = true,
-                minPinjaman = "Rp5.000.000,00",
+                minPinjaman = 5000000,
                 returns = "10%",
                 tenor = "12 Bulan"
             ),
@@ -46,7 +50,7 @@ fun HomeLenderScreen(navController: NavController) {
                 title = "Modal Usaha Nelayan",
                 description = "Kelompok Nelayan Mulyo",
                 isVerified = true,
-                minPinjaman = "Rp5.000.000,00",
+                minPinjaman = 5000000,
                 returns = "10%",
                 tenor = "12 Bulan"
             ),
@@ -55,7 +59,7 @@ fun HomeLenderScreen(navController: NavController) {
                 title = "Modal Usaha Nelayan",
                 description = "Kelompok Nelayan Mulyo",
                 isVerified = true,
-                minPinjaman = "Rp5.000.000,00",
+                minPinjaman = 5000000,
                 returns = "10%",
                 tenor = "12 Bulan"
             ), HomeCardParcel(
@@ -63,7 +67,7 @@ fun HomeLenderScreen(navController: NavController) {
                 title = "Modal Usaha Nelayan",
                 description = "Kelompok Nelayan Mulyo",
                 isVerified = true,
-                minPinjaman = "Rp5.000.000,00",
+                minPinjaman = 5000000,
                 returns = "10%",
                 tenor = "12 Bulan"
             )
@@ -99,11 +103,21 @@ fun HomeLenderScreen(navController: NavController) {
                     }
                 }
                 item {
-                    FlowRow(modifier = Modifier.fillMaxWidth().padding(start =  20.dp, end = 20.dp,), horizontalArrangement = Arrangement.SpaceBetween) {
+                    FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         datas?.forEach {
-                            CardComponent(it)
+                            CardComponent(
+                                data = it, onClick =
+                                { navController.navigate(detailPendanaanLenderScreen) }
+                            )
                         }
                     }
+
+
 
                 }
             }

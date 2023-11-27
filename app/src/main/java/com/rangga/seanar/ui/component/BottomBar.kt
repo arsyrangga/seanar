@@ -75,7 +75,7 @@ fun BottomBar(
                 },
                 selected = it.nav == currentRoute.value,
                 onClick = {
-                    navController.navigate(it.nav){
+                    navController.navigate(it.nav) {
                         popUpTo(currentRoute.value) {
                             inclusive = true
                         }
