@@ -18,15 +18,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.rangga.seanar.R
+import com.rangga.seanar.ui.navigation.donasiBorrowerScreen
 import com.rangga.seanar.ui.navigation.donasiLenderScreen
+import com.rangga.seanar.ui.navigation.homeBorrowerScreen
 import com.rangga.seanar.ui.navigation.homeLenderScreen
 import com.rangga.seanar.ui.navigation.pendanaanLenderScreen
+import com.rangga.seanar.ui.navigation.profileBorrowerScreen
 import com.rangga.seanar.ui.navigation.profileLenderScreen
 
-data class BottomBarItem(val title: String, val icon: Painter, val nav: String)
 
 @Composable
-fun BottomBar(
+fun BottomBarBorrower(
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
@@ -44,24 +46,19 @@ fun BottomBar(
 
         val navigationItems = listOf(
             BottomBarItem(
-                title = stringResource(R.string.beranda),
-                icon = painterResource(id = R.drawable.home_icon),
-                nav = homeLenderScreen
-            ),
-            BottomBarItem(
-                title = stringResource(R.string.pendanaan),
+                title = stringResource(R.string.pinjaman),
                 icon = painterResource(id = R.drawable.funds),
-                nav = pendanaanLenderScreen
+                nav = homeBorrowerScreen
             ),
             BottomBarItem(
                 title = stringResource(R.string.donasi),
                 icon = painterResource(id = R.drawable.donate),
-                nav = donasiLenderScreen
+                nav = donasiBorrowerScreen
             ),
             BottomBarItem(
                 title = stringResource(R.string.profile),
                 icon = painterResource(id = R.drawable.profile_icon),
-                nav = profileLenderScreen
+                nav = profileBorrowerScreen
             ),
         )
 

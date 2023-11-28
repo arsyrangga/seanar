@@ -25,7 +25,7 @@ import com.rangga.seanar.ui.theme.primary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetComponent (data : BottomSheetParcel,setShowBottomSheet: () -> Unit, sheetState: SheetState, onClick: () ->Unit){
+fun BottomSheetComponent ( data : BottomSheetParcel,setShowBottomSheet: () -> Unit, sheetState: SheetState, onClick: () ->Unit){
     ModalBottomSheet(
         onDismissRequest = {
             setShowBottomSheet()
@@ -35,7 +35,7 @@ fun BottomSheetComponent (data : BottomSheetParcel,setShowBottomSheet: () -> Uni
         // Sheet content
         Column(modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 60.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Image(painter = painterResource(id = R.drawable.icon_success), contentDescription = "icon success", modifier = Modifier
                 .padding(bottom = 16.dp)
                 .size(100.dp))

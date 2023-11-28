@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.rangga.seanar.R
 import com.rangga.seanar.ui.component.ButtonComponent
+import com.rangga.seanar.ui.navigation.homeLenderScreen
+import com.rangga.seanar.ui.navigation.loginScreen
 import com.rangga.seanar.ui.theme.black
 import com.rangga.seanar.ui.theme.gray_200
 import com.rangga.seanar.ui.theme.gray_300
@@ -153,14 +155,16 @@ fun LoginScreen(navController: NavController) {
 
 
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp), horizontalArrangement = Arrangement.Center) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp), horizontalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = "Belum punya Akun? ",
                 fontSize = 14.sp,
 
-            )
+                )
 
             ClickableText(
                 text = AnnotatedString("Daftar"),
@@ -171,7 +175,13 @@ fun LoginScreen(navController: NavController) {
             )
         }
 
-        ButtonComponent(onClick = { navController.navigate("home_lender_screen") }, text = "Masuk", modifier = Modifier.padding(top = 16.dp))
+        ButtonComponent(onClick = {
+            navController.navigate(homeLenderScreen) {
+                popUpTo(loginScreen) {
+                    inclusive = true
+                }
+            }
+        }, text = "Masuk", modifier = Modifier.padding(top = 16.dp))
 
 
     }

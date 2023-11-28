@@ -1,4 +1,4 @@
-package com.rangga.seanar.ui.component.lender
+package com.rangga.seanar.ui.component.borrower
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,8 +23,9 @@ import com.rangga.seanar.R
 import com.rangga.seanar.ui.theme.primary
 import com.rangga.seanar.ui.theme.white
 
+
 @Composable
-fun HeaderProfileLender(
+fun HeaderBorrower(
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -38,10 +39,28 @@ fun HeaderProfileLender(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(1F),
-                verticalArrangement = Arrangement.Center,
+                    .fillMaxWidth(0.70F), verticalArrangement = Arrangement.Center
             ) {
-                Row(modifier = Modifier.fillMaxWidth(0.8F)) {
+                Text(
+                    text = "Pendanaan",
+                    color = white,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "Kelompok Nelayan",
+                    color = white,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(1F),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                Row (modifier = Modifier.fillMaxWidth(0.8F)) {
                     Image(
                         painter = painterResource(id = R.drawable.profile),
                         contentDescription = "Profile Image Home",
@@ -51,28 +70,7 @@ fun HeaderProfileLender(
                 }
 
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(2F),
-                verticalArrangement = Arrangement.Center
-            ) {
 
-                Text(
-                    text = "Rangga Arsy",
-                    color = white,
-                    fontSize = 24.sp,
-                )
-                Text(
-                    text = "arsyrangga@gmail.com",
-                    color = white,
-                    modifier = Modifier.padding(top = 4.dp, bottom = 6.dp)
-                )
-                Text(
-                    text = "+6289673494895",
-                    color = white,
-                )
-            }
         }
     }
 }

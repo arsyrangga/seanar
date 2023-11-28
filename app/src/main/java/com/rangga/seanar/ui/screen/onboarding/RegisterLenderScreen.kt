@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.rangga.seanar.R
 import com.rangga.seanar.ui.component.ButtonComponent
+import com.rangga.seanar.ui.navigation.loginScreen
 import com.rangga.seanar.ui.theme.gray_200
 import com.rangga.seanar.ui.theme.gray_400
 import com.rangga.seanar.ui.theme.gray_500
@@ -84,8 +85,7 @@ fun RegisterLenderScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 18.dp, vertical = 32.dp),
-        verticalArrangement = Arrangement.Center
+            .padding(horizontal = 18.dp, vertical = 32.dp), verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = "Daftar",
@@ -118,24 +118,17 @@ fun RegisterLenderScreen(navController: NavController) {
             fontSize = 14.sp
         )
 
-        OutlinedTextField(
-            value = valueEmail,
-            onValueChange = {
-                changeEmail(it)
-            },
+        OutlinedTextField(value = valueEmail, onValueChange = {
+            changeEmail(it)
+        },
 
             modifier = Modifier
                 .background(color = gray_200, shape = RoundedCornerShape(8.dp))
-                .fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = gray_200,
-                unfocusedBorderColor = white
-            ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            placeholder = {
+                .fillMaxWidth(), colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = gray_200, unfocusedBorderColor = white
+            ), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email), placeholder = {
                 Text(text = "Masukan Email", color = gray_500)
-            }
-        )
+            })
 
         //  Nomor HP
         Text(
@@ -147,24 +140,17 @@ fun RegisterLenderScreen(navController: NavController) {
             fontSize = 14.sp
         )
 
-        OutlinedTextField(
-            value = valueEmail,
-            onValueChange = {
-                changePhone(it)
-            },
+        OutlinedTextField(value = valueEmail, onValueChange = {
+            changePhone(it)
+        },
 
             modifier = Modifier
                 .background(color = gray_200, shape = RoundedCornerShape(8.dp))
-                .fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = gray_200,
-                unfocusedBorderColor = white
-            ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            placeholder = {
+                .fillMaxWidth(), colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = gray_200, unfocusedBorderColor = white
+            ), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone), placeholder = {
                 Text(text = "Masukan Nomor HP", color = gray_500)
-            }
-        )
+            })
 
         //  username
         Text(
@@ -176,24 +162,17 @@ fun RegisterLenderScreen(navController: NavController) {
             fontSize = 14.sp
         )
 
-        OutlinedTextField(
-            value = valueUsername,
-            onValueChange = {
-                changeUsername(it)
-            },
+        OutlinedTextField(value = valueUsername, onValueChange = {
+            changeUsername(it)
+        },
 
             modifier = Modifier
                 .background(color = gray_200, shape = RoundedCornerShape(8.dp))
-                .fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = gray_200,
-                unfocusedBorderColor = white
-            ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            placeholder = {
+                .fillMaxWidth(), colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = gray_200, unfocusedBorderColor = white
+            ), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone), placeholder = {
                 Text(text = "Masukan Username", color = gray_500)
-            }
-        )
+            })
 
         //      input Password
         Text(
@@ -215,8 +194,7 @@ fun RegisterLenderScreen(navController: NavController) {
                 .background(color = gray_200, shape = RoundedCornerShape(8.dp))
                 .fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = gray_200,
-                unfocusedBorderColor = white
+                focusedBorderColor = gray_200, unfocusedBorderColor = white
             ),
             placeholder = {
                 Text(text = "Masukan Password", color = gray_500)
@@ -227,8 +205,10 @@ fun RegisterLenderScreen(navController: NavController) {
         )
 
         Row(
-            modifier = Modifier.padding(top = 4.dp)
-                .fillMaxWidth(), horizontalArrangement = Arrangement.End
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
 
         ) {
             Text(
@@ -238,11 +218,9 @@ fun RegisterLenderScreen(navController: NavController) {
             )
 
             ClickableText(
-                text = AnnotatedString("Peminjam?"),
-                onClick = {
+                text = AnnotatedString("Peminjam?"), onClick = {
                     navController.navigate("register_borrower_screen")
-                },
-                style = TextStyle(color = primary, fontSize = 14.sp)
+                }, style = TextStyle(color = primary, fontSize = 14.sp)
             )
         }
 
@@ -251,7 +229,8 @@ fun RegisterLenderScreen(navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp), horizontalArrangement = Arrangement.Center
+                .padding(top = 32.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Sudah punya Akun? ",
@@ -260,17 +239,15 @@ fun RegisterLenderScreen(navController: NavController) {
                 )
 
             ClickableText(
-                text = AnnotatedString("Daftar"),
-                onClick = {
-                    navController.navigate("login_screen")
-                },
-                style = TextStyle(color = primary, fontSize = 14.sp)
+                text = AnnotatedString("Masuk"), onClick = {
+                    navController.navigate(loginScreen)
+                }, style = TextStyle(color = primary, fontSize = 14.sp)
             )
         }
 
         ButtonComponent(onClick = {
             // Navigate to the main screen
-        }, text = "Masuk", modifier = Modifier.padding(top = 16.dp))
+        }, text = "Daftar", modifier = Modifier.padding(top = 16.dp))
 
 
     }

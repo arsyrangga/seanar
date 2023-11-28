@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.rangga.seanar.R
+import com.rangga.seanar.ui.navigation.loginScreen
+import com.rangga.seanar.ui.navigation.splashScreen
 import com.rangga.seanar.ui.theme.primary
 import kotlinx.coroutines.delay
 
@@ -19,7 +21,11 @@ import kotlinx.coroutines.delay
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
         delay(2000) // Delay for 2 seconds
-        navController.navigate("login_screen") // Navigate to the main screen
+        navController.navigate(loginScreen){
+            popUpTo(splashScreen) {
+                inclusive = true
+            }
+        } // Navigate to the main screen
     }
     Box(
         modifier = Modifier
