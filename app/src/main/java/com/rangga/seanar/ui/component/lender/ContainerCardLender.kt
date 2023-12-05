@@ -9,9 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.rangga.seanar.R
+import com.rangga.seanar.helper.Utils
 
 @Composable
-fun ContainerCardLender() {
+fun ContainerCardLender(funding: String, donation: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -22,14 +23,15 @@ fun ContainerCardLender() {
             modifier = Modifier,
             image = painterResource(id = R.drawable.fund1),
             title = "Total Pendanaan",
-            description = "Rp20.000.000",
+            description = Utils.formatCurrency(funding.toInt()),
 
             )
         CardHomeLender(
             modifier = Modifier,
             image = painterResource(id = R.drawable.fund2),
             title = "Total Donasi",
-            description = "Rp20.000.000"
-        )
+            description = Utils.formatCurrency(donation.toInt()),
+
+            )
     }
 }

@@ -33,7 +33,7 @@ object ApiRequest {
     fun getApiService(context: Context): ApiService {
         if (apiService == null) {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://story-api.dicoding.dev/v1/")
+                .baseUrl("https://backend-seanar.vercel.app/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okhttpClient(context))
                 .build()

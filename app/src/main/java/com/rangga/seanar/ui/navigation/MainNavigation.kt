@@ -22,7 +22,7 @@ import com.rangga.seanar.ui.screen.onboarding.SplashScreen
 fun SeanarNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = homeBorrowerScreen) {
+    NavHost(navController, startDestination = splashScreen) {
         //Onboarding
         composable(splashScreen) {
             SplashScreen(navController)

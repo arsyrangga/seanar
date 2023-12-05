@@ -16,23 +16,48 @@ class TokenDatastore (context: Context){
     private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     companion object {
         const val USER_TOKEN = "user_token"
+        const val USER_ROLE = "user_role"
+        const val USER_ID = "user_id"
     }
-    suspend fun saveToken(token: String) {
+    fun saveToken(token: String) {
         val editor = prefs.edit()
         editor.putString(USER_TOKEN, token)
         editor.apply()
     }
 
+    fun saveRole(role: String) {
+        val editor = prefs.edit()
+        editor.putString(USER_ROLE, role)
+        editor.apply()
+    }
 
-    suspend fun clearToken() {
+    fun saveUserId(id: String) {
+        val editor = prefs.edit()
+        editor.putString(USER_ID, id)
+        editor.apply()
+    }
+
+
+    fun clear() {
         val editor = prefs.edit()
         editor.putString(USER_TOKEN, "")
+        editor.putString(USER_ROLE, "")
+        editor.putString(USER_ID, "")
         editor.apply()
     }
 
     fun getToken(): String? {
         return prefs.getString(USER_TOKEN, null)
     }
+
+    fun getRole(): String? {
+        return prefs.getString(USER_ROLE, null)
+    }
+
+    fun getUserId(): String? {
+        return prefs.getString(USER_ID, null)
+    }
+
 
 
 }

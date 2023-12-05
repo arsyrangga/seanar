@@ -17,15 +17,15 @@ import com.rangga.seanar.ui.theme.primary
 import com.rangga.seanar.ui.theme.primaryDark
 
 @Composable
-fun BoxCardHome(){
+fun BoxCardHome(angsuran : String, pencairan : String, paymentRate : String = "100%"){
     Box(modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().border(width = 1.dp, color = primary, shape = RoundedCornerShape(8.dp))) {
         Column(
             Modifier.padding(20.dp)
         ) {
             Text(text = "Pendanaan Mitra Aktif", color = primaryDark, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(bottom = 8.dp))
-            TextBetween(title = "Angsuran Terbayar", description = "Rp10.000.000")
-            TextBetween(title = "Menunggu Pencairan", description = "Rp10.000.000")
-            TextBetween(title = "Pembayaran Lancar", description = "97,2%")
+            TextBetween(title = "Angsuran Terbayar", description = angsuran)
+            TextBetween(title = "Menunggu Pencairan", description = pencairan)
+            TextBetween(title = "Pembayaran Lancar", description = paymentRate)
         }
     }
 }
