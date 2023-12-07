@@ -27,7 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.rangga.seanar.data.parcel.DetailUserParcel
 import com.rangga.seanar.data.parcel.HomeCardParcel
+import com.rangga.seanar.data.parcel.ListFundingParcel
 import com.rangga.seanar.data.parcel.LoginParcel
 import com.rangga.seanar.data.retrofit.ApiRequest
 import com.rangga.seanar.helper.TokenDatastore
@@ -53,6 +55,10 @@ fun HomeLenderScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val sessionManager = TokenDatastore(context = context)
     val userId = sessionManager.getUserId()
+    var detailUser by remember {
+        mutableStateOf(sessionManager.getDetail())
+    }
+
 
     var loading by remember {
         mutableStateOf(false)
@@ -65,44 +71,10 @@ fun HomeLenderScreen(navController: NavController) {
         mutableStateOf("0")
     }
 
-
-    val datas = remember {
-        mutableStateListOf(
-            HomeCardParcel(
-                imageLink = "https://picsum.photos/seed/430/600",
-                title = "Modal Usaha Nelayan",
-                description = "Kelompok Nelayan Mulyo",
-                isVerified = true,
-                minPinjaman = 5000000,
-                returns = "10%",
-                tenor = "12 Bulan"
-            ), HomeCardParcel(
-                imageLink = "https://picsum.photos/seed/420/600",
-                title = "Modal Usaha Nelayan",
-                description = "Kelompok Nelayan Mulyo",
-                isVerified = true,
-                minPinjaman = 5000000,
-                returns = "10%",
-                tenor = "12 Bulan"
-            ), HomeCardParcel(
-                imageLink = "https://picsum.photos/seed/400/600",
-                title = "Modal Usaha Nelayan",
-                description = "Kelompok Nelayan Mulyo",
-                isVerified = true,
-                minPinjaman = 5000000,
-                returns = "10%",
-                tenor = "12 Bulan"
-            ), HomeCardParcel(
-                imageLink = "https://picsum.photos/seed/450/600",
-                title = "Modal Usaha Nelayan",
-                description = "Kelompok Nelayan Mulyo",
-                isVerified = true,
-                minPinjaman = 5000000,
-                returns = "10%",
-                tenor = "12 Bulan"
-            )
-        )
+    var listFunding = remember {
+        mutableStateListOf<ListFundingParcel>()
     }
+
 
     fun getTotalFunding() {
         coroutineScope.launch {
@@ -119,6 +91,43 @@ fun HomeLenderScreen(navController: NavController) {
                     }
 
                 } catch (err: Throwable) {
+                } finally {
+                    loading = false
+                }
+            }
+        }
+    }
+
+    fun getFundingList() {
+        coroutineScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    loading = true
+                    val response =
+                        ApiRequest.getApiService(context).getListFunding().awaitResponse()
+
+                    if (response.isSuccessful) {
+                        val data = response.body()?.data
+                        Log.d("TEH", data.toString())
+                        data.let {
+                            it?.map { list ->
+                                listFunding.add(
+                                    ListFundingParcel(
+                                        title = list?.title.toString(),
+                                        organizationName = list?.organizationName.toString(),
+                                        minimumLoan = list?.minimumLoan.toString(),
+                                        jsonMemberReturn = list?.jsonMemberReturn,
+                                        duration = list?.duration,
+                                        linkImage = list?.linkImage
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                } catch (err: Throwable) {
+                    Log.d("TEH", err.toString())
+
                 } finally {
                     loading = false
                 }
@@ -147,15 +156,50 @@ fun HomeLenderScreen(navController: NavController) {
         }
     }
 
+    fun getUserDetail() {
+        coroutineScope.launch {
+            withContext(Dispatchers.Main) {
+                try {
+                    loading = true
+                    val response =
+                        ApiRequest.getApiService(context).getUserDetail(userId.toString())
+                            .awaitResponse()
+
+                    if (response.isSuccessful) {
+                        val data = response.body()?.data
+                        val username = data?.username
+                        val email = data?.email
+                        val phone = data?.phoneNumber
+                        val payload = DetailUserParcel(
+                            phoneNumber = phone.toString(),
+                            username = username.toString(),
+                            email = email.toString()
+                        )
+                        sessionManager.saveDetailUser(
+                            payload
+                        )
+                        detailUser = payload
+                    }
+
+                } catch (err: Throwable) {
+                } finally {
+                    loading = false
+                }
+            }
+        }
+    }
+
+
     LaunchedEffect(key1 = 1) {
         getTotalFunding()
         getTotalDonation()
+        getUserDetail()
+        getFundingList()
     }
 
 
     val total = Utils.formatCurrency(
-        totalFunding.toInt() + totalDonation
-            .toInt()
+        totalFunding.toInt() + totalDonation.toInt()
     )
 
     Scaffold(bottomBar = { BottomBar(navController) }) { innerPadding ->
@@ -168,7 +212,7 @@ fun HomeLenderScreen(navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 item {
-                    HeaderLender()
+                    HeaderLender(name = detailUser?.username.toString())
                     ContainerCardLender(donation = totalDonation, funding = totalFunding)
                     BoxCardHome(pencairan = total, angsuran = total)
                     Column(
@@ -191,7 +235,7 @@ fun HomeLenderScreen(navController: NavController) {
                             .padding(start = 20.dp, end = 20.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        datas?.forEach {
+                        listFunding?.forEach {
                             CardComponent(data = it,
                                 onClick = { navController.navigate(detailPendanaanLenderScreen) })
                         }

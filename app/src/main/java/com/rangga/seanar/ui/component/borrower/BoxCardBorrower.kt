@@ -1,5 +1,6 @@
 package com.rangga.seanar.ui.component.borrower
 
+import android.icu.text.MeasureFormat
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,12 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rangga.seanar.helper.Utils
 import com.rangga.seanar.ui.component.TextBetween
 import com.rangga.seanar.ui.theme.primary
 import com.rangga.seanar.ui.theme.primaryDark
 
 @Composable
-fun BoxCardBorrower(type: String = "pendanaan") {
+fun BoxCardBorrower(type: String = "pendanaan", data1 : String, data2 : String, data3 : String) {
     Box(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -43,21 +45,25 @@ fun BoxCardBorrower(type: String = "pendanaan") {
                     "Pinjaman Belum Terbayar"
                 } else {
                     "Total Donasi yang Didapatkan"
-                }, description = "Rp20.000.000"
+                }, description = Utils.formatCurrency(data1.toInt())
             )
             TextBetween(
                 title = if (type == "pendanaan") {
                     "Pinjaman Terbayar"
                 } else {
                     "Donasi yang Sudah Dicairkan"
-                }, description = "Rp10.000.000"
+                }, description = Utils.formatCurrency(data2.toInt())
             )
             TextBetween(
                 title = if (type == "pendanaan") {
                     "Presentase Pembayaran Cicilan"
                 } else {
                     "Donasi yang Belum Dicairkan"
-                }, description = "97,2%"
+                }, description = if (type == "pendanaan") {
+                    data3
+                } else{
+                    Utils.formatCurrency(data3.toInt())
+                }
             )
         }
     }

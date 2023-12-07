@@ -20,12 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rangga.seanar.R
+import com.rangga.seanar.data.parcel.DetailUserParcel
 import com.rangga.seanar.ui.theme.primary
 import com.rangga.seanar.ui.theme.white
 
 @Composable
 fun HeaderProfileLender(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    data : DetailUserParcel?
 ) {
     Box(
         modifier = Modifier
@@ -59,17 +61,17 @@ fun HeaderProfileLender(
             ) {
 
                 Text(
-                    text = "Rangga Arsy",
+                    text = data?.username.toString(),
                     color = white,
                     fontSize = 24.sp,
                 )
                 Text(
-                    text = "arsyrangga@gmail.com",
+                     text = data?.email.toString(),
                     color = white,
                     modifier = Modifier.padding(top = 4.dp, bottom = 6.dp)
                 )
                 Text(
-                    text = "+6289673494895",
+                    text = data?.phoneNumber.toString(),
                     color = white,
                 )
             }

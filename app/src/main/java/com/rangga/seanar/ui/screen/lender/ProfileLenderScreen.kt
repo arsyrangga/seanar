@@ -46,6 +46,7 @@ fun ProfileLenderScreen(navController: NavController) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val sessionManager = TokenDatastore(context = context)
+    val userData = sessionManager.getDetail()
     Scaffold(bottomBar = { BottomBar(navController) },
         topBar = { TopBar(title = "Profile", navController = navController) }) { innerPadding ->
         Column(
@@ -53,7 +54,7 @@ fun ProfileLenderScreen(navController: NavController) {
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            HeaderProfileLender()
+            HeaderProfileLender(data = userData)
             Column(modifier = Modifier.padding(vertical = 16.dp)) {
                 ProfileCard(
                     color = black,

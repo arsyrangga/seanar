@@ -29,13 +29,14 @@ import com.rangga.seanar.ui.theme.primary
 import com.rangga.seanar.ui.theme.warning_bold
 
 @Composable
-fun CardPinjamanBorrower(data: PinjamanCardParcel, onClick: ()->Unit = {}) {
+fun CardPinjamanBorrower(data: PinjamanCardParcel, onClick: () -> Unit = {}) {
     val painter = rememberAsyncImagePainter(data.imageLink)
     Box(
         modifier = Modifier
             .padding(bottom = 20.dp)
             .fillMaxWidth()
-            .background(gray_200, RoundedCornerShape(4)).clickable { onClick() }
+            .background(gray_200, RoundedCornerShape(4))
+            .clickable { onClick() }
     ) {
         Row() {
 
@@ -73,7 +74,9 @@ fun CardPinjamanBorrower(data: PinjamanCardParcel, onClick: ()->Unit = {}) {
                         lineHeight = 18.sp
                     )
                     Text(
-                        text = Utils.formatCurrency(data.minPinjaman),
+                        text = Utils.formatCurrency(
+                            data.minPinjaman.replace(Regex(".{3}\$"), "").toInt()
+                        ),
                         color = primary,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
@@ -121,7 +124,10 @@ fun CardPinjamanBorrower(data: PinjamanCardParcel, onClick: ()->Unit = {}) {
                         .padding(top = 8.dp)
                 ) {
                     Text(
-                        text = "Pinjaman Di Dapatkan", color = gray_500, fontSize = 12.sp, lineHeight = 18.sp
+                        text = "Pinjaman Di Dapatkan",
+                        color = gray_500,
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp
                     )
                     Text(
                         text = Utils.formatCurrency(data.currentPinjaman),

@@ -8,7 +8,7 @@ data class PinjamanCardParcel(
     val imageLink: String,
     val title: String,
     val isVerified: Boolean,
-    val minPinjaman: Int,
+    val minPinjaman: String,
     val returns: String,
     val tenor: String,
     val target: Int,

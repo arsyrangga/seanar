@@ -22,13 +22,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rangga.seanar.R
+import com.rangga.seanar.helper.Utils
 import com.rangga.seanar.ui.component.ButtonComponent
 import com.rangga.seanar.ui.component.lender.CardHomeLender
 import com.rangga.seanar.ui.theme.primaryDark
 import com.rangga.seanar.ui.theme.secondary
 
 @Composable
-fun ContainerCardBorrower(type: String = "pendanaan") {
+fun ContainerCardBorrower(type: String = "pendanaan", balance: String = "0") {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,7 +66,7 @@ fun ContainerCardBorrower(type: String = "pendanaan") {
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        text = "Rp20.000.000",
+                        text = Utils.formatCurrency(balance.toInt()),
                         color = primaryDark,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold

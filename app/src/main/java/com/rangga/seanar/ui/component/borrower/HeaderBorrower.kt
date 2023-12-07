@@ -26,7 +26,8 @@ import com.rangga.seanar.ui.theme.white
 
 @Composable
 fun HeaderBorrower(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: String
 ) {
     Box(
         modifier = Modifier
@@ -47,7 +48,7 @@ fun HeaderBorrower(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Kelompok Nelayan",
+                    text = title,
                     color = white,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold

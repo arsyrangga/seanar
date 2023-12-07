@@ -25,7 +25,8 @@ import com.rangga.seanar.ui.theme.white
 
 @Composable
 fun HeaderLender(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    name:String = ""
 ) {
     Box(
         modifier = Modifier
@@ -46,7 +47,7 @@ fun HeaderLender(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Rangga Arsy",
+                    text = name,
                     color = white,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold

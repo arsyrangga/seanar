@@ -23,25 +23,24 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.rangga.seanar.R
 import com.rangga.seanar.data.parcel.HomeCardParcel
+import com.rangga.seanar.data.parcel.ListFundingParcel
 import com.rangga.seanar.helper.Utils
 import com.rangga.seanar.ui.theme.gray_200
 import com.rangga.seanar.ui.theme.gray_500
 import com.rangga.seanar.ui.theme.primary
 
 @Composable
-fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
-    Box(
-        modifier = Modifier
-            .padding(bottom = 20.dp)
-            .fillMaxWidth(0.48F)
-            .background(gray_200, RoundedCornerShape(4))
-            .clickable{onClick()}
+fun CardComponent(data: ListFundingParcel, onClick: () -> Unit = {}) {
+    Box(modifier = Modifier
+        .padding(bottom = 20.dp)
+        .fillMaxWidth(0.48F)
+        .background(gray_200, RoundedCornerShape(4))
+        .clickable { onClick() }
 
-    )
-    {
+    ) {
         Column {
             Image(
-                painter = rememberAsyncImagePainter(data.imageLink),
+                painter = rememberAsyncImagePainter(data.linkImage),
                 contentDescription = "Card Image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -56,14 +55,14 @@ fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
 
             ) {
                 Text(
-                    text = data.title,
+                    text = data.title.toString(),
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     lineHeight = 18.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
-                    text = data.description,
+                    text = data.organizationName.toString(),
                     color = gray_500,
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
@@ -78,7 +77,7 @@ fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
                         lineHeight = 18.sp
                     )
                     Text(
-                        text = "${Utils.formatCurrency(data.minPinjaman)}",
+                        text = "${data.minimumLoan}",
                         color = primary,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
@@ -88,17 +87,13 @@ fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(
-                        modifier = Modifier
-                            .padding(top = 8.dp, end = 8.dp)
+                        modifier = Modifier.padding(top = 8.dp, end = 8.dp)
                     ) {
                         Text(
-                            text = "Return",
-                            color = gray_500,
-                            fontSize = 12.sp,
-                            lineHeight = 18.sp
+                            text = "Return", color = gray_500, fontSize = 12.sp, lineHeight = 18.sp
                         )
                         Text(
-                            text = data.returns,
+                            text = "${data.jsonMemberReturn}%",
                             color = primary,
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -106,17 +101,15 @@ fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
                         )
                     }
                     Column(
-                        modifier = Modifier.weight(1F)
+                        modifier = Modifier
+                            .weight(1F)
                             .padding(top = 8.dp)
                     ) {
                         Text(
-                            text = "Tenor",
-                            color = gray_500,
-                            fontSize = 12.sp,
-                            lineHeight = 18.sp
+                            text = "Tenor", color = gray_500, fontSize = 12.sp, lineHeight = 18.sp
                         )
                         Text(
-                            text = data.tenor,
+                            text = "${data.duration} Bulan",
                             color = primary,
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -124,7 +117,6 @@ fun CardComponent(data: HomeCardParcel, onClick : ()-> Unit = {}) {
                         )
                     }
                 }
-
 
 
             }

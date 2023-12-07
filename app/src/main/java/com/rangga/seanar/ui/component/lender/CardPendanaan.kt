@@ -40,7 +40,8 @@ fun CardPendanaan(data: PendanaanCardParcel, onClick: ()->Unit = {}) {
         modifier = Modifier
             .padding(bottom = 20.dp)
             .fillMaxWidth()
-            .background(gray_200, RoundedCornerShape(4)).clickable { onClick() }
+            .background(gray_200, RoundedCornerShape(4))
+            .clickable { onClick() }
     ) {
         Row() {
 
@@ -87,7 +88,7 @@ fun CardPendanaan(data: PendanaanCardParcel, onClick: ()->Unit = {}) {
                         lineHeight = 18.sp
                     )
                     Text(
-                        text = Utils.formatCurrency(data.minPinjaman),
+                        text = data.minPinjaman,
                         color = primary,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
@@ -104,7 +105,7 @@ fun CardPendanaan(data: PendanaanCardParcel, onClick: ()->Unit = {}) {
                             text = "Return", color = gray_500, fontSize = 12.sp, lineHeight = 18.sp
                         )
                         Text(
-                            text = data.returns,
+                            text = "${data.returns}%",
                             color = primary,
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -120,7 +121,7 @@ fun CardPendanaan(data: PendanaanCardParcel, onClick: ()->Unit = {}) {
                             text = "Tenor", color = gray_500, fontSize = 12.sp, lineHeight = 18.sp
                         )
                         Text(
-                            text = data.tenor,
+                            text = "${data.tenor} Bulan",
                             color = primary,
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -139,7 +140,7 @@ fun CardPendanaan(data: PendanaanCardParcel, onClick: ()->Unit = {}) {
                         text = "Target", color = gray_500, fontSize = 12.sp, lineHeight = 18.sp
                     )
                     Text(
-                        text = Utils.formatCurrency(data.target),
+                        text = "${Utils.formatCurrency(data.target.toInt())}",
                         color = warning_bold,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
