@@ -13,7 +13,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.rangga.seanar.ui.theme.primary
 
 @Composable
-fun LenderHeaderDetail(){
+fun LenderHeaderDetail(image : String){
     Box(
         modifier = Modifier
             .height(175.dp)
@@ -22,7 +22,7 @@ fun LenderHeaderDetail(){
     ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
-            painter = rememberAsyncImagePainter(model = "https://picsum.photos/seed/251/900"),
+            painter = rememberAsyncImagePainter(model = image),
             contentDescription = "image_detail",
             contentScale = ContentScale.FillWidth
         )

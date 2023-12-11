@@ -43,6 +43,8 @@ import com.rangga.seanar.ui.component.borrower.CardPinjamanBorrower
 import com.rangga.seanar.ui.component.borrower.ContainerCardBorrower
 import com.rangga.seanar.ui.component.borrower.HeaderBorrower
 import com.rangga.seanar.ui.component.lender.CardPendanaan
+import com.rangga.seanar.ui.navigation.createFundingBorrowerScreen
+import com.rangga.seanar.ui.navigation.detailPendanaanBorrowerScreen
 import com.rangga.seanar.ui.navigation.detailPendanaanLenderScreen
 import com.rangga.seanar.ui.theme.primaryDark
 import kotlinx.coroutines.Dispatchers
@@ -153,7 +155,8 @@ fun HomeBorrowerScreen(navController: NavController) {
                                         returns = "${list?.jsonMemberReturn}%",
                                         tenor = "${list?.duration} Bulan",
                                         target = list?.targetAmount.toString().toInt(),
-                                        currentPinjaman = list?.currentAmount.toString().toInt()
+                                        currentPinjaman = list?.currentAmount.toString().toInt(),
+                                        postId = list?.postId.toString()
                                     )
                                 )
                             }
@@ -193,7 +196,8 @@ fun HomeBorrowerScreen(navController: NavController) {
                                         returns = "${list?.jsonMemberReturn}%",
                                         tenor = "${list?.duration} Bulan",
                                         target = list?.targetAmount.toString().toInt(),
-                                        currentPinjaman = list?.currentAmount.toString().toInt()
+                                        currentPinjaman = list?.currentAmount.toString().toInt(),
+                                        postId = list?.postId.toString()
                                     )
                                 )
                             }
@@ -228,7 +232,11 @@ fun HomeBorrowerScreen(navController: NavController) {
             ) {
                 item {
                     HeaderBorrower(title = detailUser?.username.toString())
-                    ContainerCardBorrower(balance = fundingBalance)
+                    ContainerCardBorrower(balance = fundingBalance, onClick = {
+                        navController.navigate(
+                            createFundingBorrowerScreen
+                        )
+                    })
                     BoxCardBorrower(data1 = "0", data2 = fundingBalance, data3 = "100%")
                     Text(
                         text = "Pendanaan Aktif",
@@ -245,7 +253,7 @@ fun HomeBorrowerScreen(navController: NavController) {
 
                             CardPinjamanBorrower(data = data, onClick = {
                                 navController.navigate(
-                                    detailPendanaanLenderScreen
+                                    "${detailPendanaanBorrowerScreen}/${data.postId}"
                                 )
                             })
                         }
@@ -268,7 +276,7 @@ fun HomeBorrowerScreen(navController: NavController) {
                 listCloseFunding.forEach { data ->
                     item {
                         Row(modifier = Modifier.padding(16.dp)) {
-                            CardPinjamanBorrower(data = data, onClick = {})
+                            CardPinjamanBorrower(data = data, onClick = {navController.navigate("${detailPendanaanBorrowerScreen}/${data.postId}")})
                         }
                     }
                 }

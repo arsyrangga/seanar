@@ -36,6 +36,8 @@ import com.rangga.seanar.ui.component.borrower.BoxCardBorrower
 import com.rangga.seanar.ui.component.borrower.CardDonasiBorrower
 import com.rangga.seanar.ui.component.borrower.ContainerCardBorrower
 import com.rangga.seanar.ui.component.borrower.HeaderBorrower
+import com.rangga.seanar.ui.navigation.createDonasiBorrowerScreen
+import com.rangga.seanar.ui.navigation.detailDonasiBorrowerScreen
 import com.rangga.seanar.ui.theme.primaryDark
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,10 +76,8 @@ fun DonasiBorrowerScreen(navController: NavController) {
             withContext(Dispatchers.Main) {
                 try {
                     loading = true
-                    val response =
-                        ApiRequest.getApiService(context)
-                            .getTotalDonationBalanceBorrower(userId.toString())
-                            .awaitResponse()
+                    val response = ApiRequest.getApiService(context)
+                        .getTotalDonationBalanceBorrower(userId.toString()).awaitResponse()
 
                     if (response.isSuccessful) {
                         donasiBalance = response.body()?.data?.donationBalance.toString()
@@ -111,7 +111,8 @@ fun DonasiBorrowerScreen(navController: NavController) {
                                         title = list?.title.toString(),
                                         isVerified = true,
                                         terkumpul = list?.currentAmount.toString().toInt(),
-                                        target = list?.targetAmount.toString().toInt()
+                                        target = list?.targetAmount.toString().toInt(),
+                                        postId = list?.postId.toString()
                                     )
                                 )
                             }
@@ -134,10 +135,8 @@ fun DonasiBorrowerScreen(navController: NavController) {
             withContext(Dispatchers.Main) {
                 try {
                     loading = true
-                    val response =
-                        ApiRequest.getApiService(context)
-                            .getCloseDonationBorrower(userId.toString())
-                            .awaitResponse()
+                    val response = ApiRequest.getApiService(context)
+                        .getCloseDonationBorrower(userId.toString()).awaitResponse()
 
                     if (response.isSuccessful) {
                         val data = response.body()?.data
@@ -150,7 +149,9 @@ fun DonasiBorrowerScreen(navController: NavController) {
                                         title = list?.title.toString(),
                                         isVerified = true,
                                         terkumpul = list?.currentAmount.toString().toInt(),
-                                        target = list?.targetAmount.toString().toInt()
+                                        target = list?.targetAmount.toString().toInt(),
+                                        postId = list?.postId.toString()
+
                                     )
                                 )
                             }
@@ -185,12 +186,13 @@ fun DonasiBorrowerScreen(navController: NavController) {
             ) {
                 item {
                     HeaderBorrower(title = detailUser?.username.toString())
-                    ContainerCardBorrower(type = "donasi", balance = donasiBalance)
+                    ContainerCardBorrower(type = "donasi", balance = donasiBalance, onClick = {
+                        navController.navigate(
+                            createDonasiBorrowerScreen
+                        )
+                    })
                     BoxCardBorrower(
-                        type = "donasi",
-                        data1 = donasiBalance,
-                        data2 = "0",
-                        data3 = donasiBalance
+                        type = "donasi", data1 = donasiBalance, data2 = "0", data3 = donasiBalance
                     )
                     Text(
                         text = "Donasi Aktif",
@@ -204,7 +206,8 @@ fun DonasiBorrowerScreen(navController: NavController) {
                 listOpenDonasi.forEach { data ->
                     item {
                         Row(modifier = Modifier.padding(16.dp)) {
-                            CardDonasiBorrower(data = data, onClick = {})
+                            CardDonasiBorrower(data = data,
+                                onClick = { navController.navigate("$detailDonasiBorrowerScreen/${data?.postId}")})
                         }
                     }
                 }
@@ -225,7 +228,7 @@ fun DonasiBorrowerScreen(navController: NavController) {
                 listCloseDonasi.forEach { data ->
                     item {
                         Row(modifier = Modifier.padding(16.dp)) {
-                            CardDonasiBorrower(data = data, onClick = {})
+                            CardDonasiBorrower(data = data, onClick = { navController.navigate("$detailDonasiBorrowerScreen/${data?.postId}")})
                         }
                     }
                 }

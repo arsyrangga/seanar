@@ -29,7 +29,7 @@ import com.rangga.seanar.ui.theme.primaryDark
 import com.rangga.seanar.ui.theme.secondary
 
 @Composable
-fun ContainerCardBorrower(type: String = "pendanaan", balance: String = "0") {
+fun ContainerCardBorrower(type: String = "pendanaan", balance: String = "0", onClick : ()->Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,7 +73,7 @@ fun ContainerCardBorrower(type: String = "pendanaan", balance: String = "0") {
                     )
                 }
                 ButtonComponent(
-                    onClick = { },
+                    onClick = onClick,
                     text = if (type == "pendanaan") {
                         "Buka Pendanaan"
                     } else {

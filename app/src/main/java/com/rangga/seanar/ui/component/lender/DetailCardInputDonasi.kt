@@ -32,14 +32,7 @@ import com.rangga.seanar.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailCardInputDonasi() {
-    val nominal = remember {
-        mutableStateOf("")
-    }
-
-    fun changeNominal(data: String) {
-        nominal.value = data
-    }
+fun DetailCardInputDonasi(nominal : String, changeNominal: (String) -> Unit) {
 
     Box(
         modifier = Modifier
@@ -61,7 +54,7 @@ fun DetailCardInputDonasi() {
                 modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Nominal ", modifier = Modifier.weight(1F), fontSize = 14.sp)
-                OutlinedTextField(value = nominal.value,
+                OutlinedTextField(value = nominal,
                     onValueChange = {
                         changeNominal(it)
                     },

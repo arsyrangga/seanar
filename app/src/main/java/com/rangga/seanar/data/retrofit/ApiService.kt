@@ -1,8 +1,12 @@
 package com.rangga.seanar.data.retrofit
 
+import com.rangga.seanar.data.parcel.DataTxParcel
 import com.rangga.seanar.data.parcel.LoginParcel
 import com.rangga.seanar.data.parcel.RegisterBorrowerParcel
 import com.rangga.seanar.data.parcel.RegisterLenderParcel
+import com.rangga.seanar.data.response.DetailPostDonationResponse
+import com.rangga.seanar.data.response.DetailPostFundingResponse
+import com.rangga.seanar.data.response.ListTxResponse
 import com.rangga.seanar.data.response.LoginResponse
 import com.rangga.seanar.data.response.listDonasi.CloseDonationBorrowerResponse
 import com.rangga.seanar.data.response.listDonasi.ListDonasiResponse
@@ -10,6 +14,7 @@ import com.rangga.seanar.data.response.listDonasi.OpenDonationBorrowerResponse
 import com.rangga.seanar.data.response.listFunding.CloseFundingBorrowerResponse
 import com.rangga.seanar.data.response.listFunding.ListFundingResponse
 import com.rangga.seanar.data.response.listFunding.OpenFundingBorrowerResponse
+import com.rangga.seanar.data.response.post.PostFundingTransactionResponse
 import com.rangga.seanar.data.response.registerborrower.RegisterBorrowerResponse
 import com.rangga.seanar.data.response.registerlender.RegisterLenderResponse
 import com.rangga.seanar.data.response.totalDonasi.TotalDonasiBorrowerResponse
@@ -34,6 +39,12 @@ interface ApiService {
     fun registerLender(
         @Body post: RegisterLenderParcel
     ): Call<RegisterLenderResponse>
+
+
+    @POST("transactions")
+    fun postTransaction(
+        @Body post: DataTxParcel
+    ): Call<PostFundingTransactionResponse>
 
     @POST("borrowers/register")
     fun registerBorrower(
@@ -76,5 +87,16 @@ interface ApiService {
 
     @GET("close/donation-posts/borrowers/{id}")
     fun getCloseDonationBorrower(@Path("id") key: String): Call<CloseDonationBorrowerResponse>
+
+    @GET("funding-posts/{id}")
+    fun getFundingDetail(@Path("id") key: String): Call<DetailPostFundingResponse>
+
+    @GET("donation-posts/{id}")
+    fun getDonationDetail(@Path("id") key: String): Call<DetailPostDonationResponse>
+
+    @GET("transactions/posts/{id}")
+    fun getTxList(@Path("id") key: String): Call<ListTxResponse>
+
+
 
 }

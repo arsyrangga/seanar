@@ -4,10 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.util.query
+import com.rangga.seanar.ui.screen.borrower.CreateDonasiBorrowerScreen
+import com.rangga.seanar.ui.screen.borrower.CreateFundingBorrowerScreen
 import com.rangga.seanar.ui.screen.borrower.DonasiBorrowerScreen
 import com.rangga.seanar.ui.screen.borrower.HomeBorrowerScreen
 import com.rangga.seanar.ui.screen.borrower.ProfileBorrowerScreen
+import com.rangga.seanar.ui.screen.lender.DetailDonasiBorrowerScreen
 import com.rangga.seanar.ui.screen.lender.DetailDonasiLenderScreen
+import com.rangga.seanar.ui.screen.lender.DetailPendanaanBorrowerScreen
 import com.rangga.seanar.ui.screen.lender.DetailPendanaanLenderScreen
 import com.rangga.seanar.ui.screen.lender.DonasiLenderScreen
 import com.rangga.seanar.ui.screen.lender.HomeLenderScreen
@@ -52,11 +57,13 @@ fun SeanarNavigation() {
         composable(profileLenderScreen) {
             ProfileLenderScreen(navController)
         }
-        composable(detailPendanaanLenderScreen) {
-            DetailPendanaanLenderScreen(navController)
+        composable("${detailPendanaanLenderScreen}/{query}") {backStackEntry->
+            val route = requireNotNull(backStackEntry.arguments?.getString("query"))
+            DetailPendanaanLenderScreen(navController, query = route)
         }
-        composable(detailDonasiLenderScreen) {
-            DetailDonasiLenderScreen(navController)
+        composable("${detailDonasiLenderScreen}/{query}") {backStackEntry ->
+            val route = requireNotNull(backStackEntry.arguments?.getString("query"))
+            DetailDonasiLenderScreen(navController, query = route)
         }
         //Lender
 
@@ -69,6 +76,22 @@ fun SeanarNavigation() {
         }
         composable(profileBorrowerScreen) {
             ProfileBorrowerScreen(navController)
+        }
+        composable(createFundingBorrowerScreen){
+            CreateFundingBorrowerScreen(navController)
+
+        }
+        composable(createDonasiBorrowerScreen){
+            CreateDonasiBorrowerScreen(navController)
+        }
+
+        composable("${detailPendanaanBorrowerScreen}/{query}") {backStackEntry->
+            val route = requireNotNull(backStackEntry.arguments?.getString("query"))
+            DetailPendanaanBorrowerScreen(navController, query = route)
+        }
+        composable("${detailDonasiBorrowerScreen}/{query}") {backStackEntry ->
+            val route = requireNotNull(backStackEntry.arguments?.getString("query"))
+            DetailDonasiBorrowerScreen(navController, query = route)
         }
         //Borrower
     }

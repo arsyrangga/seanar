@@ -75,7 +75,8 @@ fun DonasiLenderScreen(navController: NavController) {
                                         description = list?.organizationName.toString(),
                                         isVerified = true,
                                         terkumpul = list?.currentAmount!!.toInt(),
-                                        target = list?.targetAmount!!.toInt()
+                                        target = list?.targetAmount!!.toInt(),
+                                        postId = list.postId.toString()
                                     )
                                 )
                             }
@@ -119,7 +120,7 @@ fun DonasiLenderScreen(navController: NavController) {
                         listDonasi?.forEach {
                             CardDonasi(data = it, onClick = {
                                 navController.navigate(
-                                    detailDonasiLenderScreen
+                                    "${detailDonasiLenderScreen}/${it.postId}"
                                 )
                             })
                         }

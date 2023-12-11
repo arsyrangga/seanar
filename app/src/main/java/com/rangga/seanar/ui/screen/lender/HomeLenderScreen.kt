@@ -118,7 +118,8 @@ fun HomeLenderScreen(navController: NavController) {
                                         minimumLoan = list?.minimumLoan.toString(),
                                         jsonMemberReturn = list?.jsonMemberReturn,
                                         duration = list?.duration,
-                                        linkImage = list?.linkImage
+                                        linkImage = list?.linkImage,
+                                        postId = list?.postId
                                     )
                                 )
                             }
@@ -237,7 +238,7 @@ fun HomeLenderScreen(navController: NavController) {
                     ) {
                         listFunding?.forEach {
                             CardComponent(data = it,
-                                onClick = { navController.navigate(detailPendanaanLenderScreen) })
+                                onClick = { navController.navigate("${detailPendanaanLenderScreen}/${it.postId}") })
                         }
                     }
 

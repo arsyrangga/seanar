@@ -12,5 +12,6 @@ data class PinjamanCardParcel(
     val returns: String,
     val tenor: String,
     val target: Int,
-    val currentPinjaman : Int
+    val currentPinjaman : Int,
+    val postId : String
 ) : Parcelable

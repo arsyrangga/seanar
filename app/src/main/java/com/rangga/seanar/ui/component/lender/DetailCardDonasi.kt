@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rangga.seanar.R
+import com.rangga.seanar.data.response.DonationData
+import com.rangga.seanar.helper.Utils
 import com.rangga.seanar.ui.theme.gray_500
 import com.rangga.seanar.ui.theme.gray_700
 import com.rangga.seanar.ui.theme.primary
@@ -32,7 +34,7 @@ import com.rangga.seanar.ui.theme.warning_bold
 import com.rangga.seanar.ui.theme.white
 
 @Composable
-fun DetailCardDonasi() {
+fun DetailCardDonasi(data: DonationData) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,16 +54,16 @@ fun DetailCardDonasi() {
 
 
         ) {
-            Text(text = "Modal Usaha Nelayan", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            Text(text = data.title.toString(), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
             Row(modifier = Modifier.padding(vertical = 12.dp)) {
                 Text(
-                    text = "Kelompok Nelayan Mulyo",
+                    text = data.organizationName.toString(),
                     fontSize = 14.sp,
                     color = gray_500
                 )
             }
             Text(
-                text = "Modal usaha ini digunakan perawatan kapal-kapal nelayan, pemeliharaan jaring untuk penangkapan biota laut, dan workshop untuk menambah pengetahuan nelayan.",
+                text = data.description.toString(),
                 fontSize = 12.sp,
                 color = gray_500,
                 lineHeight = 18.sp
@@ -77,7 +79,7 @@ fun DetailCardDonasi() {
                     , contentScale = ContentScale.FillWidth
                 )
                 Text(
-                    text = "Nglipar, Gunungkidul, Daerah Istimewa Yogyakarta",
+                    text = data.location.toString(),
                     fontSize = 13.sp,
                     color = gray_500
                 )
@@ -88,24 +90,29 @@ fun DetailCardDonasi() {
                 .padding(top = 8.dp), horizontalArrangement = Arrangement.SpaceBetween,) {
                 Column(modifier = Modifier.weight(1F)) {
                     Text(text = "Terkumpul", fontSize = 13.sp, color = gray_500)
-                    Text(text = "Rp300.000.000,00", fontSize = 14.sp, color = primary, fontWeight = FontWeight.Bold)
+                    Text(text = Utils.formatCurrency(data.currentAmount!!.toInt()) , fontSize = 14.sp, color = primary, fontWeight = FontWeight.Bold)
                 }
                 Column( horizontalAlignment = Alignment.Start) {
                     Text(text = "Target", fontSize = 13.sp, color = gray_500, )
-                    Text(text = "Rp400.000.000,00", fontSize = 14.sp, color = primary, fontWeight = FontWeight.Bold)
+                    Text(text = Utils.formatCurrency(data.targetAmount!!.toInt()) , fontSize = 14.sp, color = primary, fontWeight = FontWeight.Bold)
                 }
             }
 
-            LinearProgressIndicator(
-                progress =  0.75F,
-                modifier = Modifier.padding(top = 16.dp).fillMaxWidth(),
-                color = primary,
-                trackColor = secondary
-            )
+            if(data.targetAmount!!.toInt() > 0){
+                LinearProgressIndicator(
+                    progress =  (data.currentAmount!!.toDouble() / data.targetAmount.toDouble()).toFloat(),
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth(),
+                    color = primary,
+                    trackColor = secondary
+                )
+            }
+
 
             Row(modifier = Modifier.padding(top = 16.dp)) {
                 Text(text = "Sisa Hari", fontSize = 13.sp, color = gray_700, modifier = Modifier.padding(end = 8.dp))
-                Text(text = "30 hari", fontSize = 13.sp, color = primary)
+                Text(text = "${data.duration.toString()} Hari", fontSize = 13.sp, color = primary)
             }
 
         }

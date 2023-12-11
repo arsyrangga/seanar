@@ -10,5 +10,6 @@ data class DonasiCardParcel(
     val description: String,
     val isVerified: Boolean,
     val terkumpul: Int,
-    val target: Int
+    val target: Int,
+    val postId:String
 ) : Parcelable
