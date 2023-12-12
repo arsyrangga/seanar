@@ -18,7 +18,7 @@ class Utils {
         }
 
         fun formatCurrency(data:Int): String{
-            return "Rp${NumberFormat.getNumberInstance(Locale.US).format(data)}.00"
+            return "Rp${NumberFormat.getNumberInstance(Locale.US).format(data.toBigInteger())}.00"
         }
         fun uriToFile(imageUri: Uri, context: Context): File {
             val myFile = createCustomTempFile(context)

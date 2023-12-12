@@ -24,6 +24,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.rangga.seanar.R
+import com.rangga.seanar.ui.navigation.detailDonasiBorrowerScreen
+import com.rangga.seanar.ui.navigation.detailDonasiLenderScreen
+import com.rangga.seanar.ui.navigation.detailPendanaanLenderScreen
 import com.rangga.seanar.ui.navigation.donasiBorrowerScreen
 import com.rangga.seanar.ui.navigation.donasiLenderScreen
 import com.rangga.seanar.ui.navigation.homeBorrowerScreen
@@ -36,7 +39,7 @@ import com.rangga.seanar.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(title:String, navController: NavController, role: String = "lender") {
+fun TopBar(title: String, navController: NavController, role: String = "lender") {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
 
     var currentRoute by remember {
@@ -60,16 +63,18 @@ fun TopBar(title:String, navController: NavController, role: String = "lender") 
         },
         navigationIcon = {
             IconButton(onClick = {
-                if(role == "lender"){
-                    if (currentRoute == homeLenderScreen || currentRoute == pendanaanLenderScreen || currentRoute == donasiLenderScreen || currentRoute == profileLenderScreen){
+                if (role == "lender") {
+                    if (currentRoute == homeLenderScreen || currentRoute == pendanaanLenderScreen || currentRoute == donasiLenderScreen || currentRoute == profileLenderScreen) {
                         navController.navigate(homeLenderScreen)
-                    } else{
+                    } else {
                         navController.popBackStack()
                     }
-                } else{
-                    if (currentRoute == homeBorrowerScreen || currentRoute == donasiBorrowerScreen || currentRoute == profileBorrowerScreen){
+                } else {
+                    if (currentRoute == homeBorrowerScreen || currentRoute == donasiBorrowerScreen || currentRoute == profileBorrowerScreen || currentRoute == detailPendanaanLenderScreen) {
                         navController.navigate(homeBorrowerScreen)
-                    } else{
+                    } else if (currentRoute == detailDonasiBorrowerScreen) {
+                        navController.navigate(donasiBorrowerScreen)
+                    } else {
                         navController.popBackStack()
                     }
                 }

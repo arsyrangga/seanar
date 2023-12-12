@@ -25,7 +25,7 @@ import com.rangga.seanar.ui.theme.primary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetComponent ( data : BottomSheetParcel,setShowBottomSheet: () -> Unit, sheetState: SheetState, onClick: () ->Unit){
+fun BottomSheetComponent ( data : BottomSheetParcel, setShowBottomSheet: () -> Unit, sheetState: SheetState, onClick: () ->Unit, textButton : String = "Kembali Ke Beranda"){
     ModalBottomSheet(
         onDismissRequest = {
             setShowBottomSheet()
@@ -42,7 +42,7 @@ fun BottomSheetComponent ( data : BottomSheetParcel,setShowBottomSheet: () -> Un
             Text(text = data.title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = primary, modifier = Modifier.padding(bottom = 16.dp))
             Text(text = data.nominal, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = black, modifier = Modifier.padding(bottom = 8.dp))
             Text(text = data.desc, fontSize = 12.sp, color = gray_500, modifier = Modifier.padding(bottom = 8.dp))
-            ButtonComponent(onClick = { onClick() }, text = "Kembali Ke Beranda", modifier = Modifier.padding(vertical = 8.dp))
+            ButtonComponent(onClick = { onClick() }, text = textButton, modifier = Modifier.padding(vertical = 8.dp))
         }
 
 

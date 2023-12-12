@@ -2,6 +2,7 @@ package com.rangga.seanar.ui.component.lender
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import java.math.BigInteger
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rangga.seanar.R
+import com.rangga.seanar.data.response.FundingData
+import com.rangga.seanar.helper.Utils
 import com.rangga.seanar.ui.component.ButtonComponent
 import com.rangga.seanar.ui.theme.gray_200
 import com.rangga.seanar.ui.theme.gray_500
@@ -41,8 +44,7 @@ import com.rangga.seanar.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailCardInputPendanaan(nominal : String, changeNominal: (String) -> Unit) {
-
+fun DetailCardInputPendanaan(data: FundingData, nominal: String, changeNominal: (String) -> Unit) {
 
 
     Box(
@@ -67,7 +69,7 @@ fun DetailCardInputPendanaan(nominal : String, changeNominal: (String) -> Unit) 
                 Text(text = "Nominal ", modifier = Modifier.weight(1F), fontSize = 14.sp)
                 OutlinedTextField(value = nominal,
                     onValueChange = {
-                      changeNominal(it)
+                        changeNominal(it)
                     },
                     maxLines = 1,
                     modifier = Modifier
@@ -83,22 +85,36 @@ fun DetailCardInputPendanaan(nominal : String, changeNominal: (String) -> Unit) 
                         Text(text = "Masukan Nominal", color = gray_500, fontSize = 14.sp)
                     })
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Prediksi Keuntungan", modifier = Modifier.weight(1F), fontSize = 12.sp)
-                Text(
-                    text = "Rp500.000,00 ",
-                    modifier = Modifier.weight(1F),
-                    fontSize = 12.sp,
-                    color = warning_bold,
-                    textAlign = TextAlign.End
-                )
+            if (nominal.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Prediksi Keuntungan",
+                        modifier = Modifier.weight(1F),
+                        fontSize = 12.sp
+                    )
+                    Text(
+                        text = "${
+                            Utils.formatCurrency(
+                                ((data.jsonMemberReturn.toString().replace(Regex(".{3}$"), "")!!
+                                    .toDouble() / 100) * nominal.toDouble() * (data.duration!!.toDouble() / 12)).toInt()
+                                    .toBigInteger().toString()
+                                    .replace(Regex("\\.\\d+"), "").toInt()
+                            )
+                        }",
+                        modifier = Modifier.weight(1F),
+                        fontSize = 12.sp,
+                        color = warning_bold,
+                        textAlign = TextAlign.End
+                    )
 
+                }
             }
+
         }
 
     }

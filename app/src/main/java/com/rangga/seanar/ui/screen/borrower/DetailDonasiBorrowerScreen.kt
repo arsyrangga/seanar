@@ -137,7 +137,7 @@ fun DetailDonasiBorrowerScreen(navController: NavController, query: String) {
 
     Scaffold(topBar = {
         TopBar(
-            title = "Bantu Pendanaan", navController = navController
+            title = "Bantu Pendanaan", navController = navController, role = "BORROWER"
         )
     }) { innerPadding ->
         LoadingComponent(isLoading = loading)

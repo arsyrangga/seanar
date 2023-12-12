@@ -82,7 +82,7 @@ fun DetailPendanaanLenderScreen(navController: NavController, query: String) {
     }
 
     fun changeNominal(data: String) {
-        nominal = data
+        nominal = data.replace(Regex("[^0-9]"), "")
     }
 
     fun handleClick() {
@@ -165,11 +165,14 @@ fun DetailPendanaanLenderScreen(navController: NavController, query: String) {
         ) {
             LenderHeaderDetail(dataDetail.linkImage.toString())
             DetailCardPendanaan(dataDetail)
-            DetailCardInputPendanaan(nominal = nominal, changeNominal = { changeNominal(it) })
+            DetailCardInputPendanaan(data = dataDetail, nominal = nominal, changeNominal = { changeNominal(it) })
             ButtonComponent(
                 onClick = {
                     PostTransaction()
-                }, text = "Bantu Pendanaan", modifier = Modifier.padding(16.dp),  disabled = nominal.isEmpty()
+                },
+                text = "Bantu Pendanaan",
+                modifier = Modifier.padding(16.dp),
+                disabled = nominal.isEmpty()
             )
             if (showBottomSheet) {
                 BottomSheetComponent(data = BottomSheetParcel(

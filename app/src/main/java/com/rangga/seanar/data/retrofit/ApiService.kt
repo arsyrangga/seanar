@@ -14,6 +14,7 @@ import com.rangga.seanar.data.response.listDonasi.OpenDonationBorrowerResponse
 import com.rangga.seanar.data.response.listFunding.CloseFundingBorrowerResponse
 import com.rangga.seanar.data.response.listFunding.ListFundingResponse
 import com.rangga.seanar.data.response.listFunding.OpenFundingBorrowerResponse
+import com.rangga.seanar.data.response.post.CreateFundingResponse
 import com.rangga.seanar.data.response.post.PostFundingTransactionResponse
 import com.rangga.seanar.data.response.registerborrower.RegisterBorrowerResponse
 import com.rangga.seanar.data.response.registerlender.RegisterLenderResponse
@@ -97,6 +98,30 @@ interface ApiService {
     @GET("transactions/posts/{id}")
     fun getTxList(@Path("id") key: String): Call<ListTxResponse>
 
+    @Multipart
+    @POST("funding-posts")
+    fun postFunding(
+        @Part file: MultipartBody.Part,
+        @Part("borrower_id") borrowerId: RequestBody,
+        @Part("title") title: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("minimum_loan") minimumLoan: RequestBody,
+        @Part("return") returnValue: RequestBody,
+        @Part("grade") grade: RequestBody,
+        @Part("duration") duration: RequestBody,
+        @Part("target_amount") targetAmount: RequestBody,
+    ): Call<CreateFundingResponse>
 
+    @Multipart
+    @POST("donation-posts")
+    fun postDonation(
+        @Part file: MultipartBody.Part,
+        @Part("borrower_id") borrowerId: RequestBody,
+        @Part("title") title: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("duration") duration: RequestBody,
+        @Part("target_amount") targetAmount: RequestBody,
+        @Part("location") location: RequestBody,
+    ): Call<CreateFundingResponse>
 
 }
