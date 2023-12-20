@@ -37,6 +37,7 @@ fun ProfileBorrowerScreen(navController: NavController) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val sessionManager = TokenDatastore(context = context)
+    val userData = sessionManager.getDetail()
     Scaffold(bottomBar = { BottomBarBorrower(navController) },
         topBar = {
             TopBar(
@@ -50,7 +51,7 @@ fun ProfileBorrowerScreen(navController: NavController) {
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            HeaderProfileBorrower()
+            HeaderProfileBorrower(data = userData)
             Column(modifier = Modifier.padding(vertical = 16.dp)) {
                 ProfileCard(
                     color = black,

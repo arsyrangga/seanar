@@ -53,6 +53,7 @@ import com.rangga.seanar.ui.component.LoadingComponent
 import com.rangga.seanar.ui.component.TopBar
 import com.rangga.seanar.ui.component.borrower.BottomButtonFunding
 import com.rangga.seanar.ui.component.lender.BottomSheetComponent
+import com.rangga.seanar.ui.navigation.detailDonasiBorrowerScreen
 import com.rangga.seanar.ui.navigation.detailDonasiLenderScreen
 import com.rangga.seanar.ui.navigation.detailPendanaanBorrowerScreen
 import com.rangga.seanar.ui.theme.gray_200
@@ -163,7 +164,7 @@ fun CreateDonasiBorrowerScreen(navController: NavController) {
         scope.launch { sheetState.hide() }.invokeOnCompletion {
             if (!sheetState.isVisible) {
                 showBottomSheet = false
-                navController.navigate("$detailDonasiLenderScreen/${postId}")
+                navController.navigate("$detailDonasiBorrowerScreen/${postId}")
             }
         }
     }

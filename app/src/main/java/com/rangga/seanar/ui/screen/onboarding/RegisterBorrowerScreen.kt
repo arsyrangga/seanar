@@ -86,9 +86,51 @@ fun RegisterBorrowerScreen(navController: NavController) {
         mutableStateOf("")
     }
 
+    var averageAnnualRevenue by remember {
+        mutableStateOf("")
+    }
+
+    var averageCatchWeight by remember {
+        mutableStateOf("")
+    }
+
+    var yearsInBusiness by remember {
+        mutableStateOf("")
+    }
+
+    var numberOfEmployees by remember {
+        mutableStateOf("")
+    }
+
+    var numberOfShips by remember {
+        mutableStateOf("")
+    }
+
     var loading by remember {
         mutableStateOf(false)
     }
+
+    fun changeAverageCatchWeight(newAverageCatchWeight: String) {
+        averageCatchWeight = newAverageCatchWeight.replace("[^0-9.]".toRegex(), "")
+    }
+
+
+    fun changeAverageAnnualRevenue(newAverageAnnualRevenue: String) {
+        averageAnnualRevenue = newAverageAnnualRevenue.replace("[^0-9.]".toRegex(), "")
+    }
+
+    fun changeYearsInBusiness(newYearsInBusiness: String) {
+        yearsInBusiness = newYearsInBusiness.replace("[^0-9.]".toRegex(), "")
+    }
+
+    fun changeNumberOfEmployees(newNumberOfEmployees: String) {
+        numberOfEmployees = newNumberOfEmployees.replace("[^0-9]".toRegex(), "")
+    }
+
+    fun changeNumberOfShips(newNumberOfShips: String) {
+        numberOfShips = newNumberOfShips.replace("[^0-9.]".toRegex(), "")
+    }
+
 
     fun changeEmail(newEmail: String) {
         valueEmail = newEmail
@@ -348,7 +390,7 @@ fun RegisterBorrowerScreen(navController: NavController) {
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = gray_200, unfocusedBorderColor = white
                 ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 placeholder = {
                     Text(text = "Masukan Nama", color = gray_500)
                 })
@@ -384,6 +426,146 @@ fun RegisterBorrowerScreen(navController: NavController) {
                 visualTransformation = PasswordVisualTransformation()
 
             )
+
+            // rata rata Pendapatan
+            Text(
+                text = "Pendapatan rata rata pertahun",
+                color = gray_600,
+                modifier = Modifier
+                    .padding(bottom = 4.dp, top = 16.dp)
+                    .fillMaxWidth(),
+                fontSize = 14.sp
+            )
+
+            OutlinedTextField(value = averageAnnualRevenue,
+                onValueChange = {
+                    changeAverageAnnualRevenue(it)
+                },
+
+                modifier = Modifier
+                    .background(
+                        color = gray_200, shape = RoundedCornerShape(8.dp)
+                    )
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = gray_200, unfocusedBorderColor = white
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = {
+                    Text(text = "Masukan Pendapatan rata rata pertahun", color = gray_500)
+                })
+
+            // rata rata Berat tangkapan
+            Text(
+                text = "rata rata Berat tangkapan (KG)",
+                color = gray_600,
+                modifier = Modifier
+                    .padding(bottom = 4.dp, top = 16.dp)
+                    .fillMaxWidth(),
+                fontSize = 14.sp
+            )
+
+            OutlinedTextField(value = averageCatchWeight,
+                onValueChange = {
+                    changeAverageCatchWeight(it)
+                },
+
+                modifier = Modifier
+                    .background(
+                        color = gray_200, shape = RoundedCornerShape(8.dp)
+                    )
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = gray_200, unfocusedBorderColor = white
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = {
+                    Text(text = "Masukan rata rata Berat tangkapan", color = gray_500)
+                })
+
+            // Lama Dalam Bisnis
+            Text(
+                text = "Lama dalam bisnis (tahun)",
+                color = gray_600,
+                modifier = Modifier
+                    .padding(bottom = 4.dp, top = 16.dp)
+                    .fillMaxWidth(),
+                fontSize = 14.sp
+            )
+
+            OutlinedTextField(value = yearsInBusiness,
+                onValueChange = {
+                    changeYearsInBusiness(it)
+                },
+
+                modifier = Modifier
+                    .background(
+                        color = gray_200, shape = RoundedCornerShape(8.dp)
+                    )
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = gray_200, unfocusedBorderColor = white
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = {
+                    Text(text = "Masukan Lama dalam bisnis", color = gray_500)
+                })
+
+            // Jumlah Karyawan
+            Text(
+                text = "Jumlah Karyawan",
+                color = gray_600,
+                modifier = Modifier
+                    .padding(bottom = 4.dp, top = 16.dp)
+                    .fillMaxWidth(),
+                fontSize = 14.sp
+            )
+
+            OutlinedTextField(value = numberOfEmployees,
+                onValueChange = {
+                    changeNumberOfEmployees(it)
+                },
+
+                modifier = Modifier
+                    .background(
+                        color = gray_200, shape = RoundedCornerShape(8.dp)
+                    )
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = gray_200, unfocusedBorderColor = white
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = {
+                    Text(text = "Masukan Jumlah Karyawan", color = gray_500)
+                })
+
+            // Jumlah Kapal
+            Text(
+                text = "Total Kapal",
+                color = gray_600,
+                modifier = Modifier
+                    .padding(bottom = 4.dp, top = 16.dp)
+                    .fillMaxWidth(),
+                fontSize = 14.sp
+            )
+
+            OutlinedTextField(value = numberOfShips,
+                onValueChange = {
+                    changeNumberOfShips(it)
+                },
+
+                modifier = Modifier
+                    .background(
+                        color = gray_200, shape = RoundedCornerShape(8.dp)
+                    )
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = gray_200, unfocusedBorderColor = white
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = {
+                    Text(text = "Masukan Total Kapal", color = gray_500)
+                })
 
             Row(
                 modifier = Modifier
@@ -429,8 +611,9 @@ fun RegisterBorrowerScreen(navController: NavController) {
             ButtonComponent(
                 disabled = disabled,
                 onClick = {
-                handleRegister()
-            }, text = "Daftar", modifier = Modifier.padding(top = 16.dp))
+                    handleRegister()
+                }, text = "Daftar", modifier = Modifier.padding(top = 16.dp)
+            )
         }
     }
 

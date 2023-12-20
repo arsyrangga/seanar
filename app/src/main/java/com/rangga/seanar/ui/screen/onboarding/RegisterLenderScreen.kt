@@ -240,7 +240,7 @@ fun RegisterLenderScreen(navController: NavController) {
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = gray_200, unfocusedBorderColor = white
                 ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 placeholder = {
                     Text(text = "Masukan Username", color = gray_500)
                 })
