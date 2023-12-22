@@ -33,7 +33,7 @@ object ApiRequest {
     fun getApiService(context: Context): ApiService {
         if (apiService == null) {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://backend-seanar.vercel.app/")
+                .baseUrl("https://backend-seanar-yqp7544ama-uc.a.run.app/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okhttpClient(context))
                 .build()

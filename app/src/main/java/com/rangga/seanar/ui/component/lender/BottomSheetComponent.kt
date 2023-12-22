@@ -20,29 +20,74 @@ import com.rangga.seanar.R
 import com.rangga.seanar.data.parcel.BottomSheetParcel
 import com.rangga.seanar.ui.component.ButtonComponent
 import com.rangga.seanar.ui.theme.black
+import com.rangga.seanar.ui.theme.danger_bold
 import com.rangga.seanar.ui.theme.gray_500
 import com.rangga.seanar.ui.theme.primary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetComponent ( data : BottomSheetParcel, setShowBottomSheet: () -> Unit, sheetState: SheetState, onClick: () ->Unit, textButton : String = "Kembali Ke Beranda"){
+fun BottomSheetComponent(
+    data: BottomSheetParcel,
+    setShowBottomSheet: () -> Unit,
+    sheetState: SheetState,
+    onClick: () -> Unit,
+    textButton: String = "Kembali Ke Beranda",
+    type: String = "success"
+) {
     ModalBottomSheet(
         onDismissRequest = {
             setShowBottomSheet()
-        },
-        sheetState = sheetState
+        }, sheetState = sheetState
     ) {
         // Sheet content
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 60.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(painter = painterResource(id = R.drawable.icon_success), contentDescription = "icon success", modifier = Modifier
-                .padding(bottom = 16.dp)
-                .size(100.dp))
-            Text(text = data.title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = primary, modifier = Modifier.padding(bottom = 16.dp))
-            Text(text = data.nominal, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = black, modifier = Modifier.padding(bottom = 8.dp))
-            Text(text = data.desc, fontSize = 12.sp, color = gray_500, modifier = Modifier.padding(bottom = 8.dp))
-            ButtonComponent(onClick = { onClick() }, text = textButton, modifier = Modifier.padding(vertical = 8.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 60.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(
+                    id = if (type == "success") {
+                        R.drawable.icon_success
+                    } else {
+                        R.drawable.icon_failed
+                    }
+                ),
+                contentDescription = "icon success",
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .size(100.dp)
+            )
+            Text(
+                text = data.title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (type == "success") {
+                    primary
+                } else {
+                    danger_bold
+                },
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Text(
+                text = data.nominal,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = black,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = data.desc,
+                fontSize = 12.sp,
+                color = gray_500,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            ButtonComponent(
+                onClick = { onClick() },
+                text = textButton,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
         }
 
 

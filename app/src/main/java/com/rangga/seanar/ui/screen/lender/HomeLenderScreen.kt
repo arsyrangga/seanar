@@ -119,7 +119,8 @@ fun HomeLenderScreen(navController: NavController) {
                                         jsonMemberReturn = list?.jsonMemberReturn,
                                         duration = list?.duration,
                                         linkImage = list?.linkImage,
-                                        postId = list?.postId
+                                        postId = list?.postId,
+                                        isFraud = list?.isFraud
                                     )
                                 )
                             }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -61,13 +62,25 @@ fun CardComponent(data: ListFundingParcel, onClick: () -> Unit = {}) {
                     lineHeight = 18.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                Text(
-                    text = data.organizationName.toString(),
-                    color = gray_500,
-                    fontSize = 12.sp,
-                    lineHeight = 18.sp,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(bottom = 8.dp)
-                )
+                ) {
+                    Text(
+                        text = data.organizationName.toString(),
+                        color = gray_500,
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp,
+                    )
+
+                    if (data.isFraud == false) {
+                        Image(
+                            painter = painterResource(id = R.drawable.trusted),
+                            contentDescription = "trust"
+                        )
+                    }
+                }
+
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(

@@ -20,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.rangga.seanar.R
 import com.rangga.seanar.data.parcel.HomeCardParcel
 import com.rangga.seanar.data.parcel.PendanaanCardParcel
 import com.rangga.seanar.helper.Utils
@@ -64,13 +66,24 @@ fun CardPendanaan(data: PendanaanCardParcel, onClick: ()->Unit = {}) {
 
             ) {
 
-                Text(
-                    text = data.description,
-                    color = gray_500,
-                    fontSize = 12.sp,
-                    lineHeight = 18.sp,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(bottom = 8.dp)
-                )
+                ) {
+                    Text(
+                        text = data.description.toString(),
+                        color = gray_500,
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp,
+                    )
+
+                    if (!data.isFraud) {
+                        Image(
+                            painter = painterResource(id = R.drawable.trusted),
+                            contentDescription = "trust"
+                        )
+                    }
+                }
 
                 Text(
                     text = data.title,

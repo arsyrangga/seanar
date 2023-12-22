@@ -83,7 +83,8 @@ fun PendanaanLenderScreen(navController: NavController) {
                                         linkImage = list?.linkImage,
                                         targetAmount = list?.targetAmount,
                                         postId = list?.postId,
-                                        organizationName = list?.organizationName.toString()
+                                        organizationName = list?.organizationName.toString(),
+                                        isFraud = list?.isFraud
                                     )
                                 )
                             }
@@ -139,7 +140,8 @@ fun PendanaanLenderScreen(navController: NavController) {
                                 ),
                                 returns = it?.jsonMemberReturn.toString(),
                                 tenor = it.duration.toString(),
-                                target = it.targetAmount.toString()
+                                target = it.targetAmount.toString(),
+                                isFraud = it.isFraud!!
                             ), onClick = {
                                 navController.navigate(
                                     "${detailPendanaanLenderScreen}/${it.postId}"

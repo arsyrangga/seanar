@@ -12,5 +12,6 @@ data class PendanaanCardParcel(
     val minPinjaman: String,
     val returns: String,
     val tenor: String,
-    val target: String
+    val target: String,
+    val isFraud: Boolean
 ) : Parcelable

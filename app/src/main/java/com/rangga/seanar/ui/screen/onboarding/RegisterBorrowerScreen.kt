@@ -1,24 +1,37 @@
 package com.rangga.seanar.ui.screen.onboarding
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +39,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,11 +52,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
+import com.rangga.seanar.data.parcel.BottomSheetParcel
 import com.rangga.seanar.data.parcel.RegisterBorrowerParcel
-import com.rangga.seanar.data.parcel.RegisterLenderParcel
 import com.rangga.seanar.data.retrofit.ApiRequest
 import com.rangga.seanar.ui.component.ButtonComponent
+import com.rangga.seanar.ui.component.lender.BottomSheetComponent
+import com.rangga.seanar.ui.navigation.detailPendanaanBorrowerScreen
 import com.rangga.seanar.ui.navigation.loginScreen
 import com.rangga.seanar.ui.theme.gray_200
 import com.rangga.seanar.ui.theme.gray_500
@@ -58,6 +78,15 @@ fun RegisterBorrowerScreen(navController: NavController) {
 
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+
+    val options = listOf("ORGANIZATION", "COMPANY")
+    var expanded by remember { mutableStateOf(false) }
+    var role by remember { mutableStateOf(options[0]) }
+    val sheetState = rememberModalBottomSheetState()
+
+
+    val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     var valueEmail by remember {
         mutableStateOf("")
@@ -131,6 +160,22 @@ fun RegisterBorrowerScreen(navController: NavController) {
         numberOfShips = newNumberOfShips.replace("[^0-9.]".toRegex(), "")
     }
 
+    fun handleClick() {
+        scope.launch { sheetState.hide() }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                showBottomSheet = false
+            }
+        }
+    }
+
+    fun resetRole() {
+        changeAverageCatchWeight("")
+        changeAverageAnnualRevenue("")
+        changeYearsInBusiness("")
+        changeNumberOfEmployees("")
+        changeNumberOfShips("")
+    }
+
 
     fun changeEmail(newEmail: String) {
         valueEmail = newEmail
@@ -175,7 +220,12 @@ fun RegisterBorrowerScreen(navController: NavController) {
                             credit_score_category = "9",
                             income = valueIncome.toInt(),
                             organization_address = valueAddress,
-                            role = "ORGANIZATION"
+                            role = role,
+                            average_annual_revenue = averageAnnualRevenue.toInt(),
+                            average_catch_weight = averageCatchWeight.toInt(),
+                            years_in_business = yearsInBusiness.toInt(),
+                            number_of_employees = numberOfEmployees.toInt(),
+                            number_of_ships = numberOfShips.toInt()
                         )
                     ).awaitResponse()
                     if (response.isSuccessful()) {
@@ -183,11 +233,13 @@ fun RegisterBorrowerScreen(navController: NavController) {
                             context, "Berhasil Daftar, Silahkan Login", Toast.LENGTH_SHORT
                         ).show()
                         navController.navigate(loginScreen)
+                    } else {
+                        if (response.code() == 403) {
+                            showBottomSheet = true
+                        }
                     }
                 } catch (err: Throwable) {
-                    Toast.makeText(
-                        context, "Daftar gagal, Silahkan Cek Data Anda", Toast.LENGTH_SHORT
-                    ).show()
+
                 } finally {
                     loading = false
                 }
@@ -195,8 +247,14 @@ fun RegisterBorrowerScreen(navController: NavController) {
         }
     }
 
-    val disabled =
+
+    val disabled = if (role == "ORGANIZATION") {
         !(valueEmail.isNotEmpty() && valueNik.isNotEmpty() && valuePhone.isNotEmpty() && valueIncome.isNotEmpty() && valueAddress.isNotEmpty() && valueName.isNotEmpty() && valuePassword.isNotEmpty())
+    } else {
+        !(valueEmail.isNotEmpty() && valueNik.isNotEmpty() && valuePhone.isNotEmpty() && valueIncome.isNotEmpty() && valueAddress.isNotEmpty() && valueName.isNotEmpty() && valuePassword.isNotEmpty() && averageCatchWeight.isNotEmpty() && averageAnnualRevenue.isNotEmpty() && yearsInBusiness.isNotEmpty() && numberOfEmployees.isNotEmpty() && numberOfShips.isNotEmpty())
+    }
+
+
 
 //  Code
     Scaffold {
@@ -362,7 +420,7 @@ fun RegisterBorrowerScreen(navController: NavController) {
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = gray_200, unfocusedBorderColor = white
                 ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 placeholder = {
                     Text(text = "Masukan Alamat", color = gray_500)
                 })
@@ -427,145 +485,196 @@ fun RegisterBorrowerScreen(navController: NavController) {
 
             )
 
-            // rata rata Pendapatan
+            // type
             Text(
-                text = "Pendapatan rata rata pertahun",
+                text = "Role",
                 color = gray_600,
                 modifier = Modifier
                     .padding(bottom = 4.dp, top = 16.dp)
                     .fillMaxWidth(),
                 fontSize = 14.sp
             )
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = { expanded = !expanded },
+            ) {
+                OutlinedTextField(
+                    // The `menuAnchor` modifier must be passed to the text field for correctness.
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                        .background(color = gray_200),
+                    readOnly = true,
+                    value = role,
+                    onValueChange = {},
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = gray_200, unfocusedBorderColor = white
+                    ),
 
-            OutlinedTextField(value = averageAnnualRevenue,
-                onValueChange = {
-                    changeAverageAnnualRevenue(it)
-                },
-
-                modifier = Modifier
-                    .background(
-                        color = gray_200, shape = RoundedCornerShape(8.dp)
                     )
-                    .fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = gray_200, unfocusedBorderColor = white
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                placeholder = {
-                    Text(text = "Masukan Pendapatan rata rata pertahun", color = gray_500)
-                })
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = {
+                        expanded = false
+                    },
+                ) {
+                    options.forEach { selectionOption ->
+                        DropdownMenuItem(
+                            text = { Text(selectionOption) },
+                            onClick = {
+                                role = selectionOption
+                                expanded = false
+                                resetRole()
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        )
+                    }
+                }
+            }
 
-            // rata rata Berat tangkapan
-            Text(
-                text = "rata rata Berat tangkapan (KG)",
-                color = gray_600,
-                modifier = Modifier
-                    .padding(bottom = 4.dp, top = 16.dp)
-                    .fillMaxWidth(),
-                fontSize = 14.sp
-            )
+            // Logic
+            if (role == "COMPANY") {
+                // rata rata Pendapatan
+                Text(
+                    text = "Pendapatan rata rata pertahun",
+                    color = gray_600,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp, top = 16.dp)
+                        .fillMaxWidth(),
+                    fontSize = 14.sp
+                )
 
-            OutlinedTextField(value = averageCatchWeight,
-                onValueChange = {
-                    changeAverageCatchWeight(it)
-                },
+                OutlinedTextField(value = averageAnnualRevenue,
+                    onValueChange = {
+                        changeAverageAnnualRevenue(it)
+                    },
 
-                modifier = Modifier
-                    .background(
-                        color = gray_200, shape = RoundedCornerShape(8.dp)
-                    )
-                    .fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = gray_200, unfocusedBorderColor = white
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                placeholder = {
-                    Text(text = "Masukan rata rata Berat tangkapan", color = gray_500)
-                })
+                    modifier = Modifier
+                        .background(
+                            color = gray_200, shape = RoundedCornerShape(8.dp)
+                        )
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = gray_200, unfocusedBorderColor = white
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = {
+                        Text(text = "Masukan Pendapatan rata rata pertahun", color = gray_500)
+                    })
 
-            // Lama Dalam Bisnis
-            Text(
-                text = "Lama dalam bisnis (tahun)",
-                color = gray_600,
-                modifier = Modifier
-                    .padding(bottom = 4.dp, top = 16.dp)
-                    .fillMaxWidth(),
-                fontSize = 14.sp
-            )
+                // rata rata Berat tangkapan
+                Text(
+                    text = "rata rata Berat tangkapan (KG)",
+                    color = gray_600,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp, top = 16.dp)
+                        .fillMaxWidth(),
+                    fontSize = 14.sp
+                )
 
-            OutlinedTextField(value = yearsInBusiness,
-                onValueChange = {
-                    changeYearsInBusiness(it)
-                },
+                OutlinedTextField(value = averageCatchWeight,
+                    onValueChange = {
+                        changeAverageCatchWeight(it)
+                    },
 
-                modifier = Modifier
-                    .background(
-                        color = gray_200, shape = RoundedCornerShape(8.dp)
-                    )
-                    .fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = gray_200, unfocusedBorderColor = white
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                placeholder = {
-                    Text(text = "Masukan Lama dalam bisnis", color = gray_500)
-                })
+                    modifier = Modifier
+                        .background(
+                            color = gray_200, shape = RoundedCornerShape(8.dp)
+                        )
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = gray_200, unfocusedBorderColor = white
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = {
+                        Text(text = "Masukan rata rata Berat tangkapan", color = gray_500)
+                    })
 
-            // Jumlah Karyawan
-            Text(
-                text = "Jumlah Karyawan",
-                color = gray_600,
-                modifier = Modifier
-                    .padding(bottom = 4.dp, top = 16.dp)
-                    .fillMaxWidth(),
-                fontSize = 14.sp
-            )
+                // Lama Dalam Bisnis
+                Text(
+                    text = "Lama dalam bisnis (tahun)",
+                    color = gray_600,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp, top = 16.dp)
+                        .fillMaxWidth(),
+                    fontSize = 14.sp
+                )
 
-            OutlinedTextField(value = numberOfEmployees,
-                onValueChange = {
-                    changeNumberOfEmployees(it)
-                },
+                OutlinedTextField(value = yearsInBusiness,
+                    onValueChange = {
+                        changeYearsInBusiness(it)
+                    },
 
-                modifier = Modifier
-                    .background(
-                        color = gray_200, shape = RoundedCornerShape(8.dp)
-                    )
-                    .fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = gray_200, unfocusedBorderColor = white
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                placeholder = {
-                    Text(text = "Masukan Jumlah Karyawan", color = gray_500)
-                })
+                    modifier = Modifier
+                        .background(
+                            color = gray_200, shape = RoundedCornerShape(8.dp)
+                        )
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = gray_200, unfocusedBorderColor = white
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = {
+                        Text(text = "Masukan Lama dalam bisnis", color = gray_500)
+                    })
 
-            // Jumlah Kapal
-            Text(
-                text = "Total Kapal",
-                color = gray_600,
-                modifier = Modifier
-                    .padding(bottom = 4.dp, top = 16.dp)
-                    .fillMaxWidth(),
-                fontSize = 14.sp
-            )
+                // Jumlah Karyawan
+                Text(
+                    text = "Jumlah Karyawan",
+                    color = gray_600,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp, top = 16.dp)
+                        .fillMaxWidth(),
+                    fontSize = 14.sp
+                )
 
-            OutlinedTextField(value = numberOfShips,
-                onValueChange = {
-                    changeNumberOfShips(it)
-                },
+                OutlinedTextField(value = numberOfEmployees,
+                    onValueChange = {
+                        changeNumberOfEmployees(it)
+                    },
 
-                modifier = Modifier
-                    .background(
-                        color = gray_200, shape = RoundedCornerShape(8.dp)
-                    )
-                    .fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = gray_200, unfocusedBorderColor = white
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                placeholder = {
-                    Text(text = "Masukan Total Kapal", color = gray_500)
-                })
+                    modifier = Modifier
+                        .background(
+                            color = gray_200, shape = RoundedCornerShape(8.dp)
+                        )
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = gray_200, unfocusedBorderColor = white
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = {
+                        Text(text = "Masukan Jumlah Karyawan", color = gray_500)
+                    })
+
+                // Jumlah Kapal
+                Text(
+                    text = "Total Kapal",
+                    color = gray_600,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp, top = 16.dp)
+                        .fillMaxWidth(),
+                    fontSize = 14.sp
+                )
+
+                OutlinedTextField(value = numberOfShips,
+                    onValueChange = {
+                        changeNumberOfShips(it)
+                    },
+
+                    modifier = Modifier
+                        .background(
+                            color = gray_200, shape = RoundedCornerShape(8.dp)
+                        )
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = gray_200, unfocusedBorderColor = white
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = {
+                        Text(text = "Masukan Total Kapal", color = gray_500)
+                    })
+            }
 
             Row(
                 modifier = Modifier
@@ -609,11 +718,27 @@ fun RegisterBorrowerScreen(navController: NavController) {
             }
 
             ButtonComponent(
-                disabled = disabled,
-                onClick = {
+                disabled = disabled, onClick = {
                     handleRegister()
                 }, text = "Daftar", modifier = Modifier.padding(top = 16.dp)
             )
+
+            if (showBottomSheet) {
+                BottomSheetComponent(
+                    data = BottomSheetParcel(
+                        title = "Registrasi Gagal",
+                        nominal = "Anda terindikasi penipuan",
+                        desc = "",
+                    ),
+                    setShowBottomSheet = { handleClick() },
+                    sheetState = sheetState,
+                    type = "failed",
+                    onClick = {
+                        handleClick()
+                    },
+                    textButton = "Tutup"
+                )
+            }
         }
     }
 
